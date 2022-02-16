@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container m-5">
+    <div class="col-md-3 m-4">
+        <div class="card" style="width: 18rem;">
+            <img src={{ quiz.image.url }} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ quiz.name }}</h5>
+                <p class="card-text">{{ quiz.desc }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+

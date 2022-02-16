@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Quizes {% endblock title %}
+
+
+{% block content %}
+
+<div class="container p-3 bg-danger">
+    <div class="row">
+{% for quiz in quizes %}
+    <div class="col-md-3 m-4">
+        <div class="card" style="width: 18rem;">
+            <img src={{ quiz.image.url }} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ quiz.name }}</h5>
+                <p class="card-text">{{ quiz.desc }}</p>
+                <a href="{% url 'quiz_detail' quiz.slug %}" class="btn btn-primary">Check out the quiz</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
