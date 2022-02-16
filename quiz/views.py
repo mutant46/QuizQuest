@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import *
 from django.views import View
 from .models import Quiz
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import QuestionForm, NewForm
+from django.views.generic.detail import SingleObjectMixin
+from django.contrib import messages
+from .forms import QuestionForm
 
 
 
@@ -27,19 +29,25 @@ class CreateQuizView(LoginRequiredMixin, CreateView):
     '''
 
     template_name = 'quiz/create_quiz.html'
-    success_url = reverse_lazy('quizes')
     model = Quiz
     fields = ('name', 'category', 'image', 'desc', 'time', 'percentage', 'difficulity')
 
 
-    '''
-    setting up the user field for the quiz
-    '''
+    # getting the quiz object 
+    def get_object(self, queryset=None):
+        self.object = super().get_object()
+
+    # setting up the user field for the quiz
     def form_valid(self, form):
         quiz = form.save(commit=False)
         quiz.user = self.request.user
         quiz.save()
         return super().form_valid(form)
+
+    # success_url redirects to add_questions page
+    def get_success_url(self):
+        return reverse_lazy('add_question', kwargs={'pk': self.object.id, 'username' : self.object.user.username})
+
 
 
 class QuizDetailView(DetailView):
@@ -48,29 +56,38 @@ class QuizDetailView(DetailView):
     context_object_name = 'quiz'
 
 
-class AddQuestionView(LoginRequiredMixin, View):
-    ''' 
-    Firstly add question formset and then forward to second step
-    <str:username>/<slug:slug>/add-questions/
-    '''
+
+
+class QuizQuestionCreateView(LoginRequiredMixin, SingleObjectMixin, FormView):
+
+    model = Quiz
+    template_name = 'quiz/add_question.html'
+
     def get(self, request, *args, **kwargs):
-        quiz = Quiz.objects.get(slug=kwargs.get('slug'))
-        if request.user == quiz.user:
-            form = NewForm()
-            context = {
-                'form' : form
-                }
-            return render(request, 'quiz/add_question.html', context)
-        return redirect('home')
+        self.object = self.get_object(queryset=Quiz.objects.all())
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        form = QuestionForm(request.POST)
-        quiz = Quiz.objects.get(slug=kwargs.get('slug'))
-        if form.is_valid():
-            instances = form.save(commit=False)
-            for instance in instances:
-                instance.quiz = quiz
-                instance.save()
-            return redirect(reverse_lazy('add_question', kwargs={'username' : quiz.user, 'slug' : quiz.slug}))
+        self.object = self.get_object(queryset=Quiz.objects.all())
+        return super().post(request, *args, **kwargs)
 
-        return render(request, 'quiz/add_question.html', {'form' : form})
+    def get_form(self, form_class= None):
+        '''
+        Use My Nested InlineFormset nested of the default form for
+        quiz model
+        '''
+        return QuestionForm(**self.get_form_kwargs(),instance=self.object)
+
+    def form_valid(self, form):
+        '''
+        If form is valid, save the form and redirect to the parent
+        quiz detail page
+        '''
+        form.save()
+        messages.success(self.request, 'Questions added successfully')
+        return redirect(self.get_success_url())
+
+
+    def get_success_url(self):
+        return reverse_lazy('add_question', kwargs={'pk': self.object.id, 'username': self.object.user.username})
+        

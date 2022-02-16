@@ -1,9 +1,34 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
 
+{% block content %}
 <div class="p-5">
   <form method="POST">
-    {% csrf_token %} {{ form.as_p }}
-    <input type="submit" />
+    {% csrf_token %} 
+    {{ form.management_form }}
+    {{ form.non_form_errors }}
+    
+    {% for form in form.forms %}
+        {{ form.as_p }}
+    
+        {% if form.nested %}
+            {{ form.nested.management_form }}
+            {{ form.nested.non_form_errors }}
+            <div class="container">
+              <div class="row">
+            {% for nested_form in form.nested.forms %}
+                  <div class="col-md-3">
+                    {{ nested_form.as_p }}
+                  </div>
+            {% endfor %}
+          </div>
+        </div>
+    
+        {% endif %}
+    
+    {% endfor %}
+
+    <input type="submit" value="Add Questions">
+    <a href="#">Done</a>
   </form>
 </div>
 

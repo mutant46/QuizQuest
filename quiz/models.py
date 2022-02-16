@@ -62,16 +62,6 @@ class Quiz(models.Model):
         return super().save(*args, *kwargs)
 
 
-class PrivateQuiz(Quiz):
-    quiz_id = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-
-
-    class Meta:
-        verbose_name = 'Private_quiz'
-        verbose_name_plural = 'Private_quizes'
-
-
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz,
                 on_delete=models.CASCADE,
@@ -85,6 +75,17 @@ class Question(models.Model):
 
     def get_correct_ans(self):
         return self.answers.all().filter(correct = True)
+
+
+class PrivateQuiz(Quiz):
+    quiz_id = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
+
+
+    class Meta:
+        verbose_name = 'Private_quiz'
+        verbose_name_plural = 'Private_quizes'
+
 
 
 class Answer(models.Model):
