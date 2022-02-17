@@ -28,7 +28,7 @@
     {% endfor %}
 
     <input type="submit" value="Add Questions">
-    <a href="#">Done</a>
+    <a href="{% url 'quiz_status' object.user object.id %}">Done</a>
   </form>
 </div>
 

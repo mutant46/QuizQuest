@@ -94,6 +94,12 @@ class BaseQuestionFormSet(BaseInlineFormSet):
                 )
 
 
+        # handle duplication of questions
+        # for form in self.forms:
+
+
+
+
 
     # overiding save method to save the nested forms as well
     def save(self, commit= True):
@@ -133,7 +139,7 @@ QuestionForm = inlineformset_factory(
                         fields = ('text', ),
                         formset=BaseQuestionFormSet,
                         extra=1,
-                        can_delete=True
+                        can_delete=False
                     )
 
 

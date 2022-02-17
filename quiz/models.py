@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify 
+import uuid
 
 
 class Category(models.Model):

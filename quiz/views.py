@@ -1,12 +1,12 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import *
+from django.views.generic import ListView, DetailView
 from django.views import View
 from .models import Quiz
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import SingleObjectMixin
 from django.contrib import messages
 from .forms import QuestionForm
+from .owner import OwnerCreateView, OwnerUpdateView, OwnerQuestionCreateView
 
 
 
@@ -23,7 +23,7 @@ class AllQuizesView(ListView):
         return super().get_queryset().filter(status='active')
 
 
-class CreateQuizView(LoginRequiredMixin, CreateView):
+class CreateQuizView(OwnerCreateView):
     '''
     Quiz Create View that redirect towards add questions page
     '''
@@ -37,12 +37,6 @@ class CreateQuizView(LoginRequiredMixin, CreateView):
     def get_object(self, queryset=None):
         self.object = super().get_object()
 
-    # setting up the user field for the quiz
-    def form_valid(self, form):
-        quiz = form.save(commit=False)
-        quiz.user = self.request.user
-        quiz.save()
-        return super().form_valid(form)
 
     # success_url redirects to add_questions page
     def get_success_url(self):
@@ -58,13 +52,15 @@ class QuizDetailView(DetailView):
 
 
 
-class QuizQuestionCreateView(LoginRequiredMixin, SingleObjectMixin, FormView):
+class QuizQuestionCreateView(OwnerQuestionCreateView):
 
     model = Quiz
     template_name = 'quiz/add_question.html'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Quiz.objects.all())
+        if self.object.user != request.user:
+            return redirect('quizes')
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -87,7 +83,35 @@ class QuizQuestionCreateView(LoginRequiredMixin, SingleObjectMixin, FormView):
         messages.success(self.request, 'Questions added successfully')
         return redirect(self.get_success_url())
 
-
     def get_success_url(self):
         return reverse_lazy('add_question', kwargs={'pk': self.object.id, 'username': self.object.user.username})
         
+
+
+
+
+class QuizStatusView(OwnerUpdateView):
+    
+    model = Quiz
+    fields = ('status',)
+    template_name = 'quiz/quiz_status.html'
+
+    #redirecting to quiz detail page
+    def get_success_url(self):
+        return reverse_lazy('quiz_detail', kwargs= {'slug' : self.object.slug})
+
+    # only quiz with more the 10 questions can be published
+    def form_valid(self, form):
+        quiz = form.save(commit=False)
+        if quiz.total_question() < 10:
+            form.add_error(field = None, error = "Active quizes must have atleast 10 questions")
+            messages.add_message(
+                self.request,
+                messages.INFO,
+                'add_question'
+            )
+            return super().form_invalid(form)
+        return super().form_valid(form)
+
+
+
