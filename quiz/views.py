@@ -103,7 +103,7 @@ class QuizStatusView(OwnerUpdateView):
     # only quiz with more the 10 questions can be published
     def form_valid(self, form):
         quiz = form.save(commit=False)
-        if quiz.total_question() < 10:
+        if quiz.total_questions() < 10:
             form.add_error(field = None, error = "Active quizes must have atleast 10 questions")
             messages.add_message(
                 self.request,

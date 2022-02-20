@@ -28,7 +28,9 @@
     {% endfor %}
 
     <input type="submit" value="Add Questions">
+    {% if object.total_questions >= 10 %}
     <a href="{% url 'quiz_status' object.user object.id %}">Done</a>
+    {% endif %}
   </form>
 </div>
 

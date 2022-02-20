@@ -52,7 +52,7 @@ class Quiz(models.Model):
     def __str__(self):
         return "%s" % self.name
 
-    def total_question(self):
+    def total_questions(self):
         return self.questions.count()
 
     '''
@@ -76,6 +76,7 @@ class Question(models.Model):
 
     def get_correct_ans(self):
         return self.answers.all().filter(correct = True)
+
 
 
 class PrivateQuiz(Quiz):

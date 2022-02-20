@@ -3,6 +3,7 @@ from django.forms.models import BaseInlineFormSet
 from .models import Question, Quiz, Answer
 from django.core.exceptions import ValidationError
 from .utils import is_empty_form, is_being_edited
+from django.db.models import Count
 
 
 
@@ -31,8 +32,6 @@ class BaseAnswerForm(BaseInlineFormSet):
                     error = 'This field is required'
                 )
 
-
-        
 
 AnswerInlineFormSet = inlineformset_factory(
                         Question, 
@@ -76,29 +75,29 @@ class BaseQuestionFormSet(BaseInlineFormSet):
 
     # overring clean method
     def clean(self):
+
         '''
         If question form is empty but answers form has data we 
         should return an error as we can not save the Question
+        and no duplication of question is allowed
         '''
 
         super().clean()
 
         for form in self.forms:
-            if not hasattr(form, 'nested') or self._should_delete_form(form):
-                continue
-
+            # handle duplication of question
+            if form.has_changed() and self._qustion_already_exists(form):
+                form.add_error(
+                    field = None,
+                    error = 'Question Already Exits.'
+                )
+            
+            # handle empty question form
             if self._is_adding_nested_inlines_to_empty_form(form):
                 form.add_error(
                     field = None,
-                    error = 'You must provide a question statement.'
+                    error = 'You must provide a question statement.',
                 )
-
-
-        # handle duplication of questions
-        # for form in self.forms:
-
-
-
 
 
     # overiding save method to save the nested forms as well
@@ -112,7 +111,7 @@ class BaseQuestionFormSet(BaseInlineFormSet):
         
         return result
 
-
+    # Utility methods
     def _is_adding_nested_inlines_to_empty_form(self, form):
         ''' 
         Is the user trying to add answers choices to a
@@ -130,6 +129,14 @@ class BaseQuestionFormSet(BaseInlineFormSet):
             return False
         
         return any(not is_empty_form(nested_form) for nested_form in form.nested)
+
+
+    def _qustion_already_exists(self, form):
+        question = form.cleaned_data.get('text')
+        if self.instance.questions.filter(text=question).exists():
+            return True
+        return False
+
 
 
 ''' Inline formset for Quiz , Question & nested AnswerForm '''
