@@ -1,6 +1,7 @@
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import SingleObjectMixin
+from django.utils.text import slugify
 
 
 ''' 
@@ -14,6 +15,7 @@ class OwnerCreateView(LoginRequiredMixin, CreateView):
     '''
     def form_valid(self, form):
         quiz = form.save(commit=False)
+        quiz.slug = slugify(quiz.name)
         quiz.user = self.request.user
         quiz.save()
         return super().form_valid(form)

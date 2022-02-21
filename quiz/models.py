@@ -22,7 +22,7 @@ d_choices = (
 )
 
 def set_quiz_image_location(instance, filename):
-    return f"{instance.user}/{instance.name}/{filename}"
+    return f"{instance.user}/{filename}"
 
 class Quiz(models.Model):
     name = models.CharField(max_length=150)
@@ -54,13 +54,6 @@ class Quiz(models.Model):
 
     def total_questions(self):
         return self.questions.count()
-
-    '''
-    settings the slug field for the quiz with its name
-    '''
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super().save(*args, *kwargs)
 
 
 class Question(models.Model):
@@ -97,7 +90,7 @@ class Answer(models.Model):
     text = models.CharField(max_length=100)
     correct = models.BooleanField(default=False)
 
-    def __srt__(self):
+    def __str__(self):
         return "%s" % self.text
 
 
