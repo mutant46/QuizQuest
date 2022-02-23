@@ -13,7 +13,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ quiz.name }}</h5>
                 <p class="card-text">{{ quiz.desc }}</p>
-                <a href="{% url 'quiz_detail' quiz.slug %}" class="btn btn-primary">Check out the quiz</a>
+                <a href="{% url 'quiz:quiz_detail' quiz.slug %}" class="btn btn-primary">Check out the quiz</a>
             </div>
         </div>
     </div>

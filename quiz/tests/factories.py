@@ -15,6 +15,11 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     username = "testUser"
     email = fake.email()
+    password = 'testpassword'
+    is_active = True
+    is_superuser = False
+    is_staff = False
+    
 
 
 

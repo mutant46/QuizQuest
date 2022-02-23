@@ -26,14 +26,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'web',
-    'quiz',
-    'result',
+
+    # Third party apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+
+    #local apps
+    'web',
+    'quiz',
+    'result',
 ]
 
 MIDDLEWARE = [

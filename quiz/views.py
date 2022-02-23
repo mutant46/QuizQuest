@@ -40,7 +40,7 @@ class CreateQuizView(OwnerCreateView):
 
     # success_url redirects to add_questions page
     def get_success_url(self):
-        return reverse_lazy('add_question', kwargs={'pk': self.object.id, 'username' : self.object.user.username})
+        return reverse_lazy('quiz:add_question', kwargs={'pk': self.object.id, 'username' : self.object.user.username})
 
 
 
