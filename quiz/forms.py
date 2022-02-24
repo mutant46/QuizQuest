@@ -1,4 +1,4 @@
-from django.forms import inlineformset_factory, ModelForm
+from django.forms import inlineformset_factory
 from django.forms.models import BaseInlineFormSet
 from .models import Question, Quiz, Answer
 from django.core.exceptions import ValidationError

@@ -1,5 +1,4 @@
-from django.http import HttpResponseForbidden
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.views import View
 from .models import Quiz
@@ -60,7 +59,7 @@ class QuizQuestionCreateView(OwnerQuestionCreateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Quiz.objects.all())
         if self.object.user != request.user:
-            return redirect('quizes')
+            return redirect('quiz:quizes')
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -72,7 +71,8 @@ class QuizQuestionCreateView(OwnerQuestionCreateView):
         Use My Nested InlineFormset nested of the default form for
         quiz model
         '''
-        return QuestionForm(**self.get_form_kwargs(),instance=self.object)
+        return QuestionForm(**self.get_form_kwargs(),
+                            instance=self.object)
 
     def form_valid(self, form):
         '''
@@ -84,11 +84,9 @@ class QuizQuestionCreateView(OwnerQuestionCreateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('add_question', kwargs={'pk': self.object.id, 'username': self.object.user.username})
+        return reverse_lazy('quiz:add_question',
+                            kwargs={'pk': self.object.id})
         
-
-
-
 
 class QuizStatusView(OwnerUpdateView):
     
@@ -98,13 +96,17 @@ class QuizStatusView(OwnerUpdateView):
 
     #redirecting to quiz detail page
     def get_success_url(self):
-        return reverse_lazy('quiz_detail', kwargs= {'slug' : self.object.slug})
+        return reverse_lazy('quiz:quiz_detail',
+                            kwargs= {
+                                'slug' : self.object.slug,
+                                'pk' : self.object.pk})
 
     # only quiz with more the 10 questions can be published
     def form_valid(self, form):
         quiz = form.save(commit=False)
         if quiz.total_questions() < 10:
-            form.add_error(field = None, error = "Active quizes must have atleast 10 questions")
+            form.add_error(field = None,
+                    error = "Active quizes must have atleast 10 questions")
             messages.add_message(
                 self.request,
                 messages.INFO,

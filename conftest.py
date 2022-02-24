@@ -53,13 +53,12 @@ def new_answer(db, answer_factory):
 
 
 
-
 # ---------------------   Mixins for test -------------------------- 
-
+@pytest.mark.django_db
 class ViewTestMixin(object):
     """Mixin with shortcuts for view tests."""
     longMessage = True  # More verbose error messages
-    view_class = None
+
 
     def get_view_kwargs(self):
         """
@@ -73,13 +72,10 @@ class ViewTestMixin(object):
         """
         return {}
 
-    def get_response(self, method, user, data, args, kwargs):
+    def get_response(self, method, user, args, kwargs):
         """Creates a request and a response object."""
         factory = RequestFactory()
-        req_kwargs = {}
-        if data:
-            req_kwargs.update({'data': data})
-        req = getattr(factory, method)('/', **req_kwargs)
+        req = getattr(factory, method)('/')
         req.user = user if user else AnonymousUser()
         return self.view_class.as_view()(req, *args, **kwargs)
 
@@ -88,7 +84,6 @@ class ViewTestMixin(object):
         user=None,
         post=False,
         to=False,
-        data={},
         args=[],
         kwargs={},
     ):
@@ -97,7 +92,6 @@ class ViewTestMixin(object):
         resp = self.get_response(
             'post' if post else 'get',
             user=user,
-            data=data,
             args=args,
             kwargs=view_kwargs,
         )
@@ -105,10 +99,5 @@ class ViewTestMixin(object):
             assert resp.status_code in [301, 302]
         else:
             assert resp.status_code == 200
-
-    # def is_not_callable(self, **kwargs):
-    #     """Tests if call raises a 404."""
-    #     with self.assertRaises(Http404):
-    #         self.is_callable(**kwargs)
 
 

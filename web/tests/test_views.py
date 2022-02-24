@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse, resolve
 from web.views import home, policy
+from conftest import ViewTestMixin
 
 
 
