@@ -19,6 +19,23 @@ d_choices = (
     ('hard', 'Hard')
 )
 
+class PublicQuizesManager(models.Manager):
+
+    ''' Creating a quiz model manager that return 
+        only public quizes '''
+
+    def get_queryset(self):
+        return super().get_queryset().filter(status='public')
+
+
+class PrivateQuizesManager(models.Manager):
+
+    ''' Creating a quiz model manager that returns
+        only private quizes '''
+
+    def get_queryset(self):
+        return super().get_queryset().filter(status='private')
+
 def set_quiz_image_location(instance, filename):
     return f"{instance.user}/{filename}"
 
@@ -37,11 +54,23 @@ class Quiz(models.Model):
     percentage =  models.FloatField()
     papularity = models.IntegerField(default = 0)
     slug = models.SlugField(max_length=150)
-    status = models.CharField(max_length=10, choices=(('active', 'Active'), ('draft', 'Draft')), default='draft')
+    status = models.CharField(max_length=10,
+                    choices=(
+                        ('public', 'Public'),
+                        ('private', 'Private'),
+                        ('draft', 'Draft')),
+                    default='draft')
     difficulity = models.CharField(max_length=10,
                 blank = True,
                 null = True,
                 choices = d_choices)
+    ratings = models.IntegerField(default = 0)
+
+
+    ''' models managers '''
+    objects = models.Manager()
+    public = PublicQuizesManager() 
+    private = PrivateQuizesManager()
 
     class Meta:
         verbose_name = 'quiz'
@@ -54,7 +83,12 @@ class Quiz(models.Model):
         return self.questions.count()
 
 
+
+
 class Question(models.Model):
+
+    ''' Question association with the quiz '''
+
     quiz = models.ForeignKey(Quiz,
                 on_delete=models.CASCADE,
                 related_name='questions')
@@ -70,18 +104,10 @@ class Question(models.Model):
 
 
 
-class PrivateQuiz(Quiz):
-    quiz_id = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-
-
-    class Meta:
-        verbose_name = 'Private_quiz'
-        verbose_name_plural = 'Private_quizes'
-
-
-
 class Answer(models.Model):
+
+    ''' Answers associated with the questions '''
+
     question = models.ForeignKey(Question,
                 on_delete=models.CASCADE,
                 related_name='answers')
@@ -90,5 +116,26 @@ class Answer(models.Model):
 
     def __str__(self):
         return "%s" % self.text
+
+
+
+class Comment(models.Model):
+
+    ''' Comments Model '''
+
+    quiz = models.ForeignKey(Quiz, on_delete = models.CASCADE)
+    text = models.CharField(max_length=400)
+
+
+    def __str__(self):
+        return self.text
+
+class Replies(models.Model):
+    
+    ''' Replies to Comment Model '''
+
+    quiz = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    text = models.CharField(max_length=400)
+    
 
 

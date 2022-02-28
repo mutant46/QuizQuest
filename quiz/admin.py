@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import TabularInline
-from .models import Category, Quiz, PrivateQuiz, Question, Answer
+from .models import Category, Quiz, Question, Answer
 
 
 '''
@@ -13,14 +13,6 @@ admin.site.register(Category)
 class QuizAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'percentage']
     prepopulated_fields = {'slug': ("name", )}
-
-
-@admin.register(PrivateQuiz)
-class PrivateQuizAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'percentage']
-    prepopulated_fields = {'slug': ("name", )}
-
-
 
 '''
 Questoin & Answers

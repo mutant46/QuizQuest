@@ -2,11 +2,28 @@ from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.text import slugify
+from django.shortcuts import redirect
+from django.http import HttpResponse
 
 
 ''' 
 Ownser Views =  Views can only be accessed by the owner of the quiz
+
 '''
+
+class OwnerDetailView(LoginRequiredMixin, DetailView):
+
+    ''' if status is private and user is not owner then
+         redirect to home page '''
+
+    def get(self, request, *args, **kwargs):
+        obj = super().get_object()
+        if obj.status == 'private':
+            return HttpResponse('<h1>This quiz is private page</h1>')
+        return super().get(request, *args, **kwargs)
+        
+
+
 
 class OwnerCreateView(LoginRequiredMixin, CreateView):
 

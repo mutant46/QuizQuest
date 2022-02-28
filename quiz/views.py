@@ -1,11 +1,11 @@
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.views import View
 from .models import Quiz
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .forms import QuestionForm
-from .owner import OwnerCreateView, OwnerUpdateView, OwnerQuestionCreateView
+from .owner import OwnerCreateView, OwnerUpdateView, OwnerQuestionCreateView, OwnerDetailView
 
 
 
@@ -16,10 +16,10 @@ class AllQuizesView(ListView):
     context_object_name = 'quizes'
 
     '''
-    Fetching only active quizes
+    Fetching only public quizes
     '''
     def get_queryset(self):
-        return super().get_queryset().filter(status='active')
+        return self.model.public.all()
 
 
 class CreateQuizView(OwnerCreateView):
@@ -39,11 +39,11 @@ class CreateQuizView(OwnerCreateView):
 
     # success_url redirects to add_questions page
     def get_success_url(self):
-        return reverse_lazy('quiz:add_question', kwargs={'pk': self.object.id, 'username' : self.object.user.username})
+        return reverse_lazy('quiz:add_question', kwargs={'pk': self.object.id})
 
 
 
-class QuizDetailView(DetailView):
+class QuizDetailView(OwnerDetailView):
     model = Quiz
     template_name = 'quiz/quiz_detail.html'
     context_object_name = 'quiz'
@@ -104,9 +104,9 @@ class QuizStatusView(OwnerUpdateView):
     # only quiz with more the 10 questions can be published
     def form_valid(self, form):
         quiz = form.save(commit=False)
-        if quiz.total_questions() < 10:
+        if quiz.total_questions() < 3:
             form.add_error(field = None,
-                    error = "Active quizes must have atleast 10 questions")
+                    error = "Public quizes must have atleast 10 questions")
             messages.add_message(
                 self.request,
                 messages.INFO,
