@@ -13,16 +13,17 @@ Ownser Views =  Views can only be accessed by the owner of the quiz
 
 class OwnerDetailView(LoginRequiredMixin, DetailView):
 
-    ''' if status is private and user is not owner then
-         redirect to home page '''
+    ''' if status is private assert the password
+        specified as the url parameter '''
 
     def get(self, request, *args, **kwargs):
         obj = super().get_object()
-        if obj.status == 'private':
-            return HttpResponse('<h1>This quiz is private page</h1>')
+        if obj.is_private():
+            pwd = request.GET.get('pwd', '')
+            if not pwd == obj.password:
+                return HttpResponse("<h1>You are not allowed to view this page</h1>")
         return super().get(request, *args, **kwargs)
         
-
 
 
 class OwnerCreateView(LoginRequiredMixin, CreateView):

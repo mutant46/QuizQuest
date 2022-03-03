@@ -1,3 +1,7 @@
+import string
+import random
+
+
 def is_empty_form(form):
     """
     A form is considered empty if it passes its validation,
@@ -27,3 +31,8 @@ def is_being_edited(form):
         return False
 
 
+def generate_random_string(length=30):
+    '''
+    Generate a random string of a given length
+    '''
+    return ''.join(random.choice(string.ascii_letters) for i in range(length))

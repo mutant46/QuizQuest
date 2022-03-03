@@ -1,3 +1,4 @@
+from ast import Param
 from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views import View
@@ -6,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .forms import QuestionForm
 from .owner import OwnerCreateView, OwnerUpdateView, OwnerQuestionCreateView, OwnerDetailView
-
+from .utils import generate_random_string
 
 
 
@@ -96,14 +97,24 @@ class QuizStatusView(OwnerUpdateView):
 
     #redirecting to quiz detail page
     def get_success_url(self):
-        return reverse_lazy('quiz:quiz_detail',
+
+        ''' adding passwoerd to the url if the quiz is private '''
+        url = reverse_lazy('quiz:quiz_detail',
                             kwargs= {
                                 'slug' : self.object.slug,
                                 'pk' : self.object.pk})
+        if self.object.is_private():
+            url += '?pwd=' + self.object.password
+        
+        return url
 
     # only quiz with more the 10 questions can be published
     def form_valid(self, form):
         quiz = form.save(commit=False)
+
+        ''' if quiz is published and has less than 10 questions
+            and setting up password if the quiz is private '''
+            
         if quiz.total_questions() < 3:
             form.add_error(field = None,
                     error = "Public quizes must have atleast 10 questions")
@@ -113,6 +124,9 @@ class QuizStatusView(OwnerUpdateView):
                 'add_question'
             )
             return super().form_invalid(form)
+
+        elif form.has_changed() and quiz.is_private():
+            quiz.password = generate_random_string()
         return super().form_valid(form)
 
 

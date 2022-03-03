@@ -57,14 +57,14 @@ class Quiz(models.Model):
     status = models.CharField(max_length=10,
                     choices=(
                         ('public', 'Public'),
-                        ('private', 'Private'),
-                        ('draft', 'Draft')),
+                        ('private', 'Private')),
                     default='draft')
     difficulity = models.CharField(max_length=10,
                 blank = True,
                 null = True,
                 choices = d_choices)
     ratings = models.IntegerField(default = 0)
+    password = models.CharField(max_length=100, blank=True, null=True)
 
 
     ''' models managers '''
@@ -81,6 +81,10 @@ class Quiz(models.Model):
 
     def total_questions(self):
         return self.questions.count()
+
+
+    def is_private(self):
+        return self.status == 'private'
 
 
 
