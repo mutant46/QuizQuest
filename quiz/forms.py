@@ -1,9 +1,54 @@
+from multiprocessing.sharedctypes import Value
 from django.forms import inlineformset_factory
+from django import forms
 from django.forms.models import BaseInlineFormSet
 from .models import Question, Quiz, Answer
 from django.core.exceptions import ValidationError
 from .utils import is_empty_form, is_being_edited
 from django.db.models import Count
+
+
+
+''' ---------------------------------- Quiz Create View Form---------------------------------- '''
+
+
+class PublicQuizForm(forms.ModelForm):
+    class Meta:
+        model = Quiz
+        fields = ['name', 'category', 'image', 'desc', 'time', 'percentage', 'difficulity']
+
+
+class PrivateQuizForm(forms.ModelForm):
+    valid_thru = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = Quiz
+        fields = ['name', 'category', 'image', 'desc', 'time', 'percentage', 'difficulity', 'valid_thru']
+
+
+''' ---------------------------------- Quiz Status UpdateView Form---------------------------------- '''
+
+
+class QuizPublishForm(forms.ModelForm):
+    status = forms.CharField(widget=forms.HiddenInput(attrs= {'value' : 'public'}))
+    class Meta:
+        model = Quiz
+        fields = ['status']
+
+    # def clean_status(self):
+    #     status = self.cleaned_data.get('status')
+    #     if status == 'public' and self.instance.questions.count() == 0:
+    #         raise ValidationError('Quiz must have at least one question')
+    #     return status
+
+
+
+
+
+
+
+
+
 
 
 

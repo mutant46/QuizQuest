@@ -3,7 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.text import slugify
 from django.shortcuts import redirect
-from django.http import HttpResponse
+from .utils import generate_random_string
+from django.views import View
 
 
 ''' 
@@ -21,7 +22,7 @@ class OwnerDetailView(LoginRequiredMixin, DetailView):
         if obj.is_private():
             pwd = request.GET.get('pwd', '')
             if not pwd == obj.password:
-                return HttpResponse("<h1>You are not allowed to view this page</h1>")
+                return redirect('quiz:quizes')
         return super().get(request, *args, **kwargs)
         
 
@@ -35,6 +36,9 @@ class OwnerCreateView(LoginRequiredMixin, CreateView):
         quiz = form.save(commit=False)
         quiz.slug = slugify(quiz.name)
         quiz.user = self.request.user
+        if self.request.GET.get('status') == 'private':
+            quiz.status = 'private'
+            quiz.password = generate_random_string()
         quiz.save()
         return super().form_valid(form)
 

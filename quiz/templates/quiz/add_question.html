@@ -28,8 +28,12 @@
     {% endfor %}
 
     <input type="submit" value="Add Questions">
-    {% if object.total_questions >= 3 %}
-    <a href="{% url 'quiz:quiz_status' object.id %}">Done</a>
+    {% if object.total_questions >= 3  %}
+        {% if object.is_private %}
+        <a href="{% url 'quiz:quiz_detail' object.id object.slug %}?pwd={{ object.password }}">Done</a>
+        {% else %}
+        <a href="{% url 'quiz:quiz_status' object.id %}">Done</a>
+        {% endif %}
     {% endif %}
   </form>
 </div>

@@ -5,9 +5,8 @@ from django.views import View
 from .models import Quiz
 from django.urls import reverse_lazy
 from django.contrib import messages
-from .forms import QuestionForm
+from .forms import QuestionForm, PrivateQuizForm, PublicQuizForm, QuizPublishForm
 from .owner import OwnerCreateView, OwnerUpdateView, OwnerQuestionCreateView, OwnerDetailView
-from .utils import generate_random_string
 
 
 
@@ -30,7 +29,12 @@ class CreateQuizView(OwnerCreateView):
 
     template_name = 'quiz/create_quiz.html'
     model = Quiz
-    fields = ('name', 'category', 'image', 'desc', 'time', 'percentage', 'difficulity')
+    form_class = PublicQuizForm
+    def get(self, request, *args, **kwargs):
+            status =  request.GET.get('status', "")
+            if status == "private":
+                self.form_class = PrivateQuizForm
+            return super().get(request, *args, **kwargs)
 
 
     # getting the quiz object 
@@ -92,7 +96,7 @@ class QuizQuestionCreateView(OwnerQuestionCreateView):
 class QuizStatusView(OwnerUpdateView):
     
     model = Quiz
-    fields = ('status',)
+    form_class = QuizPublishForm
     template_name = 'quiz/quiz_status.html'
 
     #redirecting to quiz detail page
@@ -112,8 +116,8 @@ class QuizStatusView(OwnerUpdateView):
     def form_valid(self, form):
         quiz = form.save(commit=False)
 
-        ''' if quiz is published and has less than 10 questions
-            and setting up password if the quiz is private '''
+        ''' if user settings quiz to public and has\
+            less than 10 questions '''
             
         if quiz.total_questions() < 3:
             form.add_error(field = None,
@@ -124,9 +128,8 @@ class QuizStatusView(OwnerUpdateView):
                 'add_question'
             )
             return super().form_invalid(form)
-
-        elif form.has_changed() and quiz.is_private():
-            quiz.password = generate_random_string()
+        quiz.status = 'public'
+        quiz.save()
         return super().form_valid(form)
 
 
