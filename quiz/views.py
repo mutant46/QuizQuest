@@ -1,6 +1,6 @@
 from ast import Param
 from django.shortcuts import redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views import View
 from .models import Quiz
 from django.urls import reverse_lazy
