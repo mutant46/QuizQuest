@@ -2,7 +2,7 @@ import pytest
 from quiz.views import AllQuizesView
 from django.test import TestCase
 from conftest import ViewTestMixin
-from quiz.views import AllQuizesView, CreateQuizView,  QuizDetailView, QuizQuestionCreateView, QuizStatusView
+from quiz.views import AllQuizesView, CreateQuizView,  QuizDetailView, QuizQuestionCreateView, QuizStatusView, QuizUpdateView, QuizStatusUpdateView
 
 
 
@@ -66,4 +66,40 @@ class TestQuizDetailView(ViewTestMixin):
 
     def test_quiz_detail_get_status_code(self, new_quiz):
         self.is_callable(user=new_quiz.user)
+
+
+
+class TestQuizEditView(ViewTestMixin):
+
+    view_class = QuizUpdateView
+
+    def get_view_kwargs(self):
+        return {'pk' : '1', 'slug' : 'testQuiz'}
+
+    def test_quiz_edit_user_not_loged_in(self):
+        self.is_callable(to = True)
+
+    def test_quiz_edit_get_status_code(self, new_quiz):
+        self.is_callable(user=new_quiz.user)
+
+    def test_quiz_edit_post_status_code(self, new_quiz):
+        self.is_callable(user=new_quiz.user, post= True)
+
+
+
+class TestQuizStatusUpdateView(ViewTestMixin):
+    
+        view_class = QuizStatusUpdateView
+    
+        def get_view_kwargs(self):
+            return {'pk' : '1', 'slug' : 'testQuiz'}
+    
+        def test_quiz_status_update_user_not_loged_in(self):
+            self.is_callable(to = True)
+    
+        def test_quiz_status_update_get_status_code(self, new_quiz):
+            self.is_callable(user=new_quiz.user)
+    
+        def test_quiz_status_update_post_status_code(self, new_quiz):
+            self.is_callable(user=new_quiz.user, post= True)
 

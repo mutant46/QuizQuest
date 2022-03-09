@@ -1,9 +1,8 @@
-.pytest_cache
+*.pytest_cache
 
-.coverage
 
 htmlcov
 
-*.pyc
+**.pyc
 
 **/__pycache__

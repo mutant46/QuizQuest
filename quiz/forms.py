@@ -26,6 +26,8 @@ class PrivateQuizForm(forms.ModelForm):
         fields = ['name', 'category', 'image', 'desc', 'time', 'percentage', 'difficulity', 'valid_thru']
 
 
+
+
 ''' ---------------------------------- Quiz Status UpdateView Form---------------------------------- '''
 
 
@@ -34,19 +36,6 @@ class QuizPublishForm(forms.ModelForm):
     class Meta:
         model = Quiz
         fields = ['status']
-
-    # def clean_status(self):
-    #     status = self.cleaned_data.get('status')
-    #     if status == 'public' and self.instance.questions.count() == 0:
-    #         raise ValidationError('Quiz must have at least one question')
-    #     return status
-
-
-
-
-
-
-
 
 
 
@@ -191,7 +180,8 @@ QuestionForm = inlineformset_factory(
                         fields = ('text', ),
                         formset=BaseQuestionFormSet,
                         extra=1,
-                        can_delete=False
+                        can_delete=True,
+                        can_delete_extra = False
                     )
 
 

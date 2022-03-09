@@ -13,6 +13,13 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-9 m-4">
+        {% if quiz.user == request.user %}
+            <a href="{% url 'quiz:edit_quiz' quiz.pk quiz.slug %}">Edit Quiz Details</a>
+            <a href="{% url 'quiz:add_question' quiz.pk quiz.slug %}">Edit Questions</a>
+        {% endif %}        
+    </div>
 </div>
 
 {% endblock content %}

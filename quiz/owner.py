@@ -4,7 +4,6 @@ from django.views.generic.detail import SingleObjectMixin
 from django.utils.text import slugify
 from django.shortcuts import redirect
 from .utils import generate_random_string
-from django.views import View
 
 
 ''' 

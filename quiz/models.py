@@ -12,6 +12,9 @@ class Category(models.Model):
     def __str__(self):
         return "%s" % self.name
 
+
+# ---------------------------------------------------------------------------- 
+
 #difficulities choices
 d_choices = (
     ('easy', 'Easy'),
@@ -89,6 +92,7 @@ class Quiz(models.Model):
         return self.status == 'private'
 
 
+# ------------------------------------------------------------ 
 
 
 class Question(models.Model):
@@ -109,6 +113,8 @@ class Question(models.Model):
         return self.answers.all().filter(correct = True)
 
 
+# ------------------------------------------------------------- 
+
 
 class Answer(models.Model):
 
@@ -123,6 +129,8 @@ class Answer(models.Model):
     def __str__(self):
         return "%s" % self.text
 
+
+# -------------------------------------------------------------
 
 
 class Comment(models.Model):

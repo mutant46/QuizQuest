@@ -9,7 +9,7 @@
         <ul>
             {% for message in messages  %}
                 {% if message.tags == "info" %}
-                   <a href="{% url 'quiz:add_question' object.id %}">Add more question</a>
+                   <a href="{% url 'quiz:add_question' object.id object.slug %}">Add more question</a>
                 {% endif %}
             {% endfor %}
     
