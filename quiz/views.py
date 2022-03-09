@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views import View
 from quiz.utils import generate_random_string
 from .models import Quiz
