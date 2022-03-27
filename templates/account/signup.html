@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% block title %} Sign Up{% endblock title %}
+{% block navbar %}{% endblock navbar %}
+
+{% block content %}
+
+<div class="container bg-gray mt-5 px-5">
+    <h1 class="text-center pt-5">Join Us</h1>
+    <p class="text-center mb-5">Already a User? <a href="{% url 'account_login' %}">Log In</a></p>
+    <form class="signup" method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {% include "base_forms/form.html" %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button class="primaryAction btn btn-lg btn-success" type="submit">{% trans "Sign Up" %}</button>
+      </form>
+</div>
+
+{% endblock content %}
+
+
+{% block footer %}{% endblock footer %}

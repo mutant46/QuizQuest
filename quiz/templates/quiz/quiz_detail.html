@@ -3,23 +3,36 @@
 
 {% block content %}
 
-<div class="container m-5">
-    <div class="col-md-3 m-4">
-        <div class="card" style="width: 18rem;">
-            <img src={{ quiz.image.url }} class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ quiz.name }}</h5>
-                <p class="card-text">{{ quiz.desc }}</p>
-            </div>
+
+
+<div class="container-fluid px-4 px-lg-5 min-height">
+    <div class="row py-5">
+        <div class="col-sm-12 mb-5  d-flex justify-content-end">
+            {% if quiz.user == request.user %}
+                <a href="{% url 'quiz:edit_quiz' quiz.pk quiz.slug %}" class="btn btn-lg btn-primary">Edit Quiz Details</a>
+                <a href="{% url 'quiz:add_question' quiz.pk quiz.slug %}" class="btn btn-lg btn-primary ms-3">Edit Questions</a>
+            {% endif %}        
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <img src="{{ quiz.image.url }}" alt="" width="100%" height="100%">
+        </div>
+        <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-around py-4">
+            <h4>Name        : <span class="text-info">{{ quiz.name }}</span></h4>
+            <h4>Submissions : <span class="text-info">{{ quiz.papularity }}</span></h4>
+            <h4>Owner : <span class="text-info">{{ quiz.user.username }}</span></h4>
+            <h4>difficulity : <span class="text-info">{{ quiz.difficulity }}</span></h4>
+            <h4>Passing Score : <span class="text-info">{{ quiz.percentage }}</span></h4>
+            <h4>Time : <span class="text-info">{{ quiz.time }}</span></h4>
+        </div>
+        <div class="col-sm-12 col-md-6 mt-5">
+            <h4>Description :</h4>
+            <p>{{ quiz.desc }}</p>
         </div>
     </div>
 
-    <div class="col-md-9 m-4">
-        {% if quiz.user == request.user %}
-            <a href="{% url 'quiz:edit_quiz' quiz.pk quiz.slug %}">Edit Quiz Details</a>
-            <a href="{% url 'quiz:add_question' quiz.pk quiz.slug %}">Edit Questions</a>
-        {% endif %}        
-    </div>
+    {% if not quiz.user == request.user %}
+    <a href="#" class="btn btn-lg btn-primary">Take Test</a>
+{% endif %}  
 </div>
 
 {% endblock content %}

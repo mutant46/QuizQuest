@@ -4,17 +4,15 @@ from django.views.generic.detail import SingleObjectMixin
 from django.utils.text import slugify
 from django.shortcuts import redirect
 from .utils import generate_random_string
-<<<<<<< HEAD
-
-=======
 from django.views import View
 from django.urls import reverse_lazy
->>>>>>> f7ee7d36af76f2b8a784e63a7f09a26eb4587d1f
+
 
 ''' 
 Ownser Views =  Views can only be accessed by the owner of the quiz
 
 '''
+
 
 class OwnerDetailView(DetailView):
 
@@ -31,7 +29,6 @@ class OwnerDetailView(DetailView):
             if not pwd:
                 return redirect('quiz:quizes')
         return super().get(request, *args, **kwargs)
-        
 
 
 class OwnerCreateView(LoginRequiredMixin, CreateView):
@@ -39,6 +36,7 @@ class OwnerCreateView(LoginRequiredMixin, CreateView):
     '''
     adding the user to the quiz object
     '''
+
     def form_valid(self, form):
         quiz = form.save(commit=False)
         quiz.slug = slugify(quiz.name)
@@ -70,6 +68,3 @@ class OwnerQuestionCreateView(LoginRequiredMixin, SingleObjectMixin, FormView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
-
-
-

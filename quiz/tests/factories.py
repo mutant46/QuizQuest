@@ -4,9 +4,7 @@ from faker import Faker
 from quiz import models
 
 
-
 fake = Faker()
-
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -19,8 +17,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     is_active = True
     is_superuser = False
     is_staff = False
-    
-
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
@@ -28,8 +24,6 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         model = models.Category
 
     name = "testName"
-
-
 
 
 class QuizFactory(factory.django.DjangoModelFactory):
@@ -50,16 +44,12 @@ class QuizFactory(factory.django.DjangoModelFactory):
     difficulity = fake.random_element(('easy', 'medium', 'hard'))
 
 
-
-
 class QuestionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Question
 
-
     quiz = factory.SubFactory(QuizFactory)
     text = "testQuestion"
-
 
 
 class AnswerFactory(factory.django.DjangoModelFactory):
@@ -69,6 +59,3 @@ class AnswerFactory(factory.django.DjangoModelFactory):
     question = factory.SubFactory(QuestionFactory)
     text = "testAnswer"
     correct = fake.boolean()
-
-
-

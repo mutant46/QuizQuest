@@ -5,16 +5,143 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href=" {% static 'css/bootstrap.min.css' %} ">
-    <link rel="stylesheet" href="{% static '' %}" />
-    {% block stylesheet %}{% endblock stylesheet %}
-    <title>Quiz | {% block title %} {% endblock %}</title>
+    <title>QuizQuest | {% block title %} A revolutionary way to educate{% endblock title %} </title>
+    <!-- info : Plugins -->
+    <link rel="stylesheet" href={% static 'plugins/bootstrap/bootstrap.min.css' %} />
+    <link rel="stylesheet" type="text/css" href={% static
+    "plugins/slick/slick-theme.css" %} /> <link rel="stylesheet" type="text/css"
+    href={% static "plugins/slick/slick.css" %} />
+
+    <!-- info : Custom Stylesheet -->
+    <link rel="stylesheet" href={% static "css/style.css" %} />
+
+    <!-- info: themeify icons -->
+    <link rel="stylesheet" href={% static "plugins/themify-icons/themify-icons.css"
+    %} />
   </head>
   <body>
-    {% block content %}{% endblock content %}
+    {% block navbar %}
+    <!-- info navbar -->
+    <header>
+      <nav class="navbar position-relative p-0 navbar-light">
+        <div class="container-fluid px-sm-4 py-3 justify-content-start">
+          <!-- info: Hamburder menu -->
+          <div class="hamburger-menu" id="hamburger">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3 mb-0"></div>
+          </div>
+          <!-- info: Navbar brand -->
+          <a class="navbar-brand h3" href="{% url 'home' %}">QuizQuest</a>
+          <!-- info: Navbar Menu -->
+          <div class="navbar-menu-wrapper" id="mynavbar">
+            <ul class="navbar-menu d-flex ps-0 ms-2">
+              <li class="nav-item ms-lg-1">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item ms-lg-1">
+                <a class="nav-link" href="{% url 'home' %}#about">About</a>
+              </li>
+              <li class="nav-item ms-lg-1">
+                <a class="nav-link" href="{% url 'home' %}#feature">Features</a>
+              </li>
+              <li class="nav-item ms-lg-1">
+                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+              </li>
+            </ul>
+          </div>
+          <!-- info: Search Bar -->
+          <form
+            class="navbar-form me-lg-2 bg-white rounded-pill ms-auto"
+            role="search"
+            action="{% url 'quiz:quizes_search' %}"
+            method="GET"
+          >
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control border-0 bg-transparent fs-6 ps-3"
+                placeholder="Search"
+                name="q"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                  <i class="ti-search fw-bold"></i>
+                </button>
+              </div>
+            </div>
+          </form>
 
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery.js' %}"></script>
-    {% block script %} {% endblock script %}
+          <!-- info: UnAuthorized User Section -->
+          {% if not request.user.is_authenticated %}
+          <div class="unauthorized">
+            <button class="btn rounded-pill"><a href="{% url 'account_login' %}" class="text-dark">Log In</a></button>
+            <button type="button" class="btn btn-success rounded-pill px-4">
+              <a href="{% url 'account_signup' %}" class="text-light">Sign Up</a>
+            </button>
+          </div>
+          {% else %}
+          <!-- info: Authorized User Section -->
+          <div class="authorized">
+            <div class="dropdown">
+              <button
+                class="btn dropdown-toggle"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                MuTanT46
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-light dropstart"
+                aria-labelledby="profileDropdown"
+              >
+                <li>
+                  <a class="dropdown-item mb-2 py-2" href="#">Dashboard</a>
+                </li>
+                <li>
+                  <a class="dropdown-item mb-2 py-2" href="{% url 'account_change_password' %}">Change Password</a>
+                </li>
+                <li>
+                  <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item mb-2 py-2 ps-3 border-0">Log out</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </nav>
+    </header>
+    {% endblock navbar %} {% block content %}{% endblock content %}
+    <br />
+    {% block footer %}
+    <!-- info : footer -->
+    <footer class="mt-5">
+      <div class="continer footer px-4 px-lg-5 pt-5 pb-4">
+        <a class="navbar-brand h4 text-white" href="#">QuizQuest</a>
+        <br />
+        <br />
+        <div class="footer-menu py-3 d-flex justify-content-between fs-6">
+          <a href="{% url 'home' %}" class="menu-item">Home</a>
+          <a href="{% url 'home' %}#about" class="menu-item">About</a>
+          <a href="{% url 'home' %}#feature" class="menu-item">Features</a>
+          <a href="{% url 'contact' %}" class="menu-item">Contact</a>
+        </div>
+
+        <hr class="text-white mt-3" />
+        <div class="copywrite">
+          <span class="text-white">Copyright © 2022 QuizQuest.</span>
+        </div>
+      </div>
+    </footer>
+    {% endblock footer %}
+
+    <script src={% static "plugins/bootstrap/bootstrap.min.js" %}></script>
+    <script src={% static "plugins/jQuery/jquery.min.js" %}></script>
+    <script src={% static "plugins/slick/slick.min.js" %}></script>
+    <script src={% static "js/script.js" %}></script>
   </body>
 </html>

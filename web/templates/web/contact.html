@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %} Contact {% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid px-4 px-lg-5 py-5">
+        <form method="POST">
+            {% csrf_token %} {% include 'base_forms/form.html' %}
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+          </form>
+    </div>
+
+{% endblock %}

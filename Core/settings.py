@@ -31,10 +31,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
+    "widget_tweaks",
 
-    #local apps
+    # local apps
     'web',
     'quiz',
     'result',
@@ -158,3 +157,6 @@ SOCIALACCOUNT_PROVIDERS = {
         ]
     }
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

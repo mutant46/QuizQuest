@@ -1,15 +1,210 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="hero container-fluid p-4 py-md-5">
+  <div class="row justify-content-center gap-4 gap-md-0">
+    <div class="col-sm-12 col-md-6 col-lg-5 hero__img">
+      <img src={% static "images/hero__1.avif" %} alt="" width="100%" height="100%"
+      />
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-5 d-flex align-items-center">
+      <div class="hero__info">
+        <h1>Create a Quiz in Minutes</h1>
+        <br />
+        <p class="pe-5 fw-bold">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio assumenda
+          eveniet laudantium doloribus blanditiis officia!
+        </p>
+        <button type="button" class="btn btn-success rounded-pill px-5 py-2 mb-4">
+          <a href="{% url 'quiz:quizes' %}" class="text-white">Explore</a>
+        </button>
+        <div
+          class="attrations text-white py-md-2 py-lg-4 d-flex justify-content-md-around flex-wrap"
+        >
+          <div class="attraction">
+            <div class="">
+              <i class="icon ti-pulse pe-2"></i>
+              <span>Fast</span>
+            </div>
+            <p class="mt-1">Lorem ipsum dolor.</p>
+          </div>
+          <div class="attraction ps-md-3">
+            <div class="">
+              <i class="icon ti-check-box pe-2"></i>
+              <span>Aumated Marking</span>
+            </div>
+            <p class="mt-1">Lorem ipsum dolor.</p>
+          </div>
+          <div class="attraction ps-md-3">
+            <div class="">
+              <i class="icon ti-lock pe-2"></i>
+              <span>Private Quizes</span>
+            </div>
+            <p class="mt-1">Lorem ipsum dolor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h1>home Page</h1>
-<h1>
-  {% if user.is_authenticated %} Hello {{ user.username }} .
+<div class="popular container-fluid px-4 px-lg-5 py-5" id="popular">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>
+        Popular Professional <br />
+        Categories
+      </h3>
+    </div>
+    <div class="col-md-12">
+      <div class="responsive mt-3 bg-white">
+        {% for category in categories %}
+        <div class="item rounded overlay">
+          <a href="{% url 'quiz:quizes_by_category' category.name %}">
+            <img src={% static "images/feature-2.avif" %} width="100%" height="360px"
+            class="rounded" />
+            <div class="popular__info p-3 position-absolute left-0 top-0 text-white">
+              <p class="mb-1">QuizQuest</p>
+              <h3>{{ category.name }}</h3>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
 
-  <form method="post" action="{% url 'account_logout' %}?next=/accounts/login">
-    {% csrf_token %}
-    <button type="submit">Sign Out</button>
-  </form>
+<div class="feature container-fluid px-4 px-lg-5 pt-5 pb-2" id="feature">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Features</h2>
+      <p class="feature__p mb-4">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati maiores
+        impedit dolorem. Quia voluptates dolore iure animi corrupti ducimus nobis!
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores asperiores
+        amet doloribus reprehenderit veritatis numquam?
+      </p>
+    </div>
 
-  {% else %} Login In {% endif %}
-</h1>
+    <div class="col-sm-12 col-md-6 position-relative" id="feature">
+      <div class="feature__img overlay">
+        <img src={% static "images/secure.avif" %} alt="" width="100%" height="100%"
+        />
+      </div>
+      <div class="feature__info position-absolute top-0 left-0 p-4 text-white">
+        <span>ONE</span>
+        <h2>Keep it Secure</h2>
+      </div>
+      <a href="{% url 'account_signup' %}" class="position-absolute bottom-0 m-4 btn btn-outline-light"
+        >Start Today</a
+      >
+    </div>
+    <div class="col-sm-12 col-md-3 position-relative">
+      <div class="feature__img overlay">
+        <img src={% static "images/feature-2.avif" %} width="100%" height="100%" />
+      </div>
+      <div class="feature__info position-absolute top-0 left-0 p-4 text-white">
+        <span>TWO</span>
+        <h2>Auto Graded</h2>
+      </div>
+      <a href="{% url 'account_signup' %}" class="position-absolute bottom-0 m-4 btn btn-outline-light"
+        >Start Today</a
+      >
+    </div>
+    <div class="col-sm-12 col-md-3 position-relative">
+      <div class="feature__img overlay">
+        <img src={% static "images/feature-3.avif" %} width="100%" height="100%" />
+      </div>
+      <div class="feature__info position-absolute top-0 left-0 p-4 text-white">
+        <span>THREE</span>
+        <h2>Customize Look</h2>
+      </div>
+      <a href="{% url 'account_signup' %}" class="position-absolute bottom-0 m-4 btn btn-outline-light"
+        >Start Today</a
+      >
+    </div>
+    <div class="col-sm-12 col-md-3 position-relative">
+      <div class="feature__img overlay">
+        <img src={% static "images/feature-4.avif" %} width="100%" height="100%" />
+      </div>
+      <div class="feature__info position-absolute top-0 left-0 p-4 text-white">
+        <span>FOUR</span>
+        <h2>Stay Engaged</h2>
+      </div>
+      <a href="{% url 'account_signup' %}" class="position-absolute bottom-0 m-4 btn btn-outline-light"
+        >Start Today</a
+      >
+    </div>
+    <div class="col-sm-12 col-md-3 position-relative">
+      <div class="feature__img overlay">
+        <img src={% static "images/feature-5.avif" %} width="100%" height="100%" />
+      </div>
+      <div class="feature__info position-absolute top-0 left-0 p-4 text-white">
+        <span>FIVE</span>
+        <h2>Works anywhere</h2>
+      </div>
+      <a href="{% url 'account_signup' %}" class="position-absolute bottom-0 m-4 btn btn-outline-light"
+        >Start Today</a
+      >
+    </div>
+    <div class="col-sm-12 col-md-6 position-relative" id="feature">
+      <div class="feature__img overlay">
+        <img src={% static "images/feature-6.avif" %} width="100%" height="100%" />
+      </div>
+      <div class="feature__info position-absolute top-0 left-0 p-4 text-white">
+        <span>SIX</span>
+        <h2>Capture Leads and Generate Business</h2>
+      </div>
+      <a href="{% url 'account_signup' %}" class="position-absolute bottom-0 m-4 btn btn-outline-light"
+        >Start Today</a
+      >
+    </div>
+  </div>
+</div>
 
-{% endblock %}
+<div class="about container-fluid px-4 px-lg-5 py-5" id="about">
+  <div class="row py-md-5">
+    <div class="col-sm-12 col-md-6">
+      <img src={% static "images/about.avif" %} width="100%" height="100%" />
+    </div>
+    <div
+      class="col-sm-12 mt-4 mt-md-0 col-md-6 d-flex flex-column justify-content-center"
+    >
+      <h3 class="pe-md-5 mb-4">
+        A whole world of Amazing talent <br />
+        at your fingertips
+      </h3>
+      <div class="py-1">
+        <div>
+          <i class="ti-arrow-circle-right fw-bold fs-6"></i>
+          <span class="ms-1 fs-5 fw-bold">The best for brain</span>
+        </div>
+        <p class="pe-md-5 py-2">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta fuga ut
+          voluptatem.
+        </p>
+      </div>
+      <div class="py-1">
+        <div>
+          <i class="ti-arrow-circle-right fw-bold fs-6"></i>
+          <span class="ms-1 fs-5 fw-bold">The best for brain</span>
+        </div>
+        <p class="pe-md-5 py-2">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta fuga ut
+          voluptatem. Lorem ipsum dolor sit amet.
+        </p>
+      </div>
+      <div class="py-1">
+        <div>
+          <i class="ti-arrow-circle-right fw-bold fs-6"></i>
+          <span class="ms-1 fs-5 fw-bold">The best for brain</span>
+        </div>
+        <p class="pe-md-5 py-2">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta fuga ut
+          voluptatem.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

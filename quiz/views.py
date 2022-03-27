@@ -44,7 +44,7 @@ class CreateQuizView(OwnerCreateView):
 
     # success_url redirects to add_questions page
     def get_success_url(self):
-        return reverse_lazy('quiz:add_question', kwargs={'pk': self.object.id})
+        return reverse_lazy('quiz:add_question', kwargs={'pk': self.object.id, 'slug' : self.object.slug})
 
 
 
@@ -187,3 +187,22 @@ class QuizStatusUpdateView(QuizStatusView):
         
         return super(QuizStatusView, self).form_valid(form)
 
+
+
+class QuizCategoryView(ListView):
+    model = Quiz
+    template_name = 'quiz/quizes.html'
+    context_object_name = 'quizes'
+
+
+    def get_queryset(self):
+        return super().get_queryset().filter(category__name=self.kwargs['category'])
+
+
+class QuizSearchView(ListView):
+    model = Quiz
+    template_name = 'quiz/quizes.html'
+    context_object_name = 'quizes'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(name__icontains=self.request.GET['q'])
