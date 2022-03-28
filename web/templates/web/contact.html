@@ -3,6 +3,11 @@
 {% block content %}
 
     <div class="container-fluid px-4 px-lg-5 py-5">
+
+        <div class="py-3">
+            <h1>Contact Us</h1>
+            <p style="width:60%;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos officiis fugit facilis aut itaque. Dignissimos praesentium ipsam accusamus cupiditate quibusdam.</p>
+        </div>
         <form method="POST">
             {% csrf_token %} {% include 'base_forms/form.html' %}
             <button type="submit" class="btn btn-primary btn-lg">Submit</button>

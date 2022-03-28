@@ -20,3 +20,8 @@ class ContactView(CreateView):
     model = Contact
     fields = ['name', 'email', 'message']
     success_url = '/'
+
+
+class DashboardView(TemplateView):
+    template_name = 'web/dashboard.html'
+    

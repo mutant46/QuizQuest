@@ -32,7 +32,7 @@
         {% if object.is_private %}
         <a href="{% url 'quiz:quiz_detail' object.id object.slug %}?pwd={{ object.password }}">Done</a>
         {% else %}
-        <a href="{% url 'quiz:quiz_status' object.id %}">Done</a>
+        <a href="{% url 'quiz:quiz_status' object.id object.slug %}">Done</a>
         {% endif %}
     {% endif %}
   </form>

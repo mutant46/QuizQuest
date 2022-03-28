@@ -20,7 +20,7 @@
                 <div class="text-danger py-2">
                     <span>{{ field.errors.0 }}</span>
                 </div>
-            {% elif field.name == 'remember' %}
+            {% elif field.name == 'remember'%}
                 {% render_field field class="form-check" id=field.name %}
             {% else %}
                 {% render_field field class="form-control" id=field.name %}

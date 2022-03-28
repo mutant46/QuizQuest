@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} Dashboard {% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid px-4 px-lg-5 py-5 min-height">
+    <div class="row">
+        <div class="col-sm-12 mb-4">
+            <h1>Create & Manage Your <br> Quizes</h1>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card py-4 shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">Create Public Quiz</h5>
+                    <p class="card-text">Create a new quiz and add questions to it.</p>
+                    <a href="{% url 'quiz:create_quiz' %}?status=public" class="btn btn-primary">Create Quiz</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card py-4 shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">Create Private Quiz</h5>
+                    <p class="card-text">Create a new quiz and add questions to it.</p>
+                    <a href="{% url 'quiz:create_quiz' %}?status=private" class="btn btn-primary">Create Quiz</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card py-4 shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Public Quizes</h5>
+                    <p class="card-text">Create a new quiz and add questions to it.</p>
+                    <a href="#" class="btn btn-primary">Manage Public</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card py-4 shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Private Quizes</h5>
+                    <p class="card-text">Create a new quiz and add questions to it.</p>
+                    <a href="#" class="btn btn-primary">Manage Private</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

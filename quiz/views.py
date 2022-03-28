@@ -14,6 +14,7 @@ class AllQuizesView(ListView):
     model = Quiz
     template_name = 'quiz/quizes.html'
     context_object_name = 'quizes'
+    paginate_by = 4
 
     '''
     Fetching only public quizes
@@ -90,7 +91,7 @@ class QuizQuestionCreateView(OwnerQuestionCreateView):
 
     def get_success_url(self):
         return reverse_lazy('quiz:add_question',
-                            kwargs={'pk': self.object.id})
+                            kwargs={'pk': self.object.id, 'slug': self.object.slug})
         
 
 class QuizStatusView(OwnerUpdateView):
