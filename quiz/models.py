@@ -1,9 +1,11 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
 
 
 class Category(models.Model):
     name = models.CharField(max_length = 150)
+    image = models.ImageField(upload_to="category_images", blank=True)
 
     class Meta:
         verbose_name = 'category'

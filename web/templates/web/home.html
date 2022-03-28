@@ -10,8 +10,7 @@
         <h1>Create a Quiz in Minutes</h1>
         <br />
         <p class="pe-5 fw-bold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio assumenda
-          eveniet laudantium doloribus blanditiis officia!
+          Make your own quiz and assess anyone’s skills, knowledge, competency, and more!
         </p>
         <button type="button" class="btn btn-success rounded-pill px-5 py-2 mb-4">
           <a href="{% url 'quiz:quizes' %}" class="text-white">Explore</a>
@@ -24,21 +23,21 @@
               <i class="icon ti-pulse pe-2"></i>
               <span>Fast</span>
             </div>
-            <p class="mt-1">Lorem ipsum dolor.</p>
+            <p class="mt-1">Congratulate high scores.</p>
           </div>
           <div class="attraction ps-md-3">
             <div class="">
               <i class="icon ti-check-box pe-2"></i>
               <span>Aumated Marking</span>
             </div>
-            <p class="mt-1">Lorem ipsum dolor.</p>
+            <p class="mt-1">Encouraging feedback.</p>
           </div>
           <div class="attraction ps-md-3">
             <div class="">
               <i class="icon ti-lock pe-2"></i>
               <span>Private Quizes</span>
             </div>
-            <p class="mt-1">Lorem ipsum dolor.</p>
+            <p class="mt-1">Secure and reliable.</p>
           </div>
         </div>
       </div>
@@ -59,7 +58,7 @@
         {% for category in categories %}
         <div class="item rounded overlay">
           <a href="{% url 'quiz:quizes_by_category' category.name %}">
-            <img src={% static "images/feature-2.avif" %} width="100%" height="360px"
+            <img src="{{ category.image.url }}" width="100%" height="360px"
             class="rounded" />
             <div class="popular__info p-3 position-absolute left-0 top-0 text-white">
               <p class="mb-1">QuizQuest</p>
@@ -78,10 +77,7 @@
     <div class="col-sm-12">
       <h2>Features</h2>
       <p class="feature__p mb-4">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati maiores
-        impedit dolorem. Quia voluptates dolore iure animi corrupti ducimus nobis!
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores asperiores
-        amet doloribus reprehenderit veritatis numquam?
+        Want to create high-quality, professional-looking quizzes in minutes? SurveyMonkey provides everything you need, including analysis tools that simplify quiz scoring and help you quickly understand your results
       </p>
     </div>
 
@@ -176,31 +172,28 @@
       <div class="py-1">
         <div>
           <i class="ti-arrow-circle-right fw-bold fs-6"></i>
-          <span class="ms-1 fs-5 fw-bold">The best for brain</span>
+          <span class="ms-1 fs-5 fw-bold">Track who has taken your quiz</span>
         </div>
         <p class="pe-md-5 py-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta fuga ut
-          voluptatem.
+          Email results to people who have completed your online quiz, or remind those who haven’t.
         </p>
       </div>
       <div class="py-1">
         <div>
           <i class="ti-arrow-circle-right fw-bold fs-6"></i>
-          <span class="ms-1 fs-5 fw-bold">The best for brain</span>
+          <span class="ms-1 fs-5 fw-bold">Make your quizzes and tests really pop</span>
         </div>
         <p class="pe-md-5 py-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta fuga ut
-          voluptatem. Lorem ipsum dolor sit amet.
+          Add your branding, display customized feedback on questions, and more.
         </p>
       </div>
       <div class="py-1">
         <div>
           <i class="ti-arrow-circle-right fw-bold fs-6"></i>
-          <span class="ms-1 fs-5 fw-bold">The best for brain</span>
+          <span class="ms-1 fs-5 fw-bold">Enable your quizzes on any device</span>
         </div>
         <p class="pe-md-5 py-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta fuga ut
-          voluptatem.
+          Easily make an online quiz that can be taken on any device, anywhere.
         </p>
       </div>
     </div>

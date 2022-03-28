@@ -8,8 +8,9 @@
     {{ form.non_form_errors }}
     
     {% for form in form.forms %}
-        {{ form.as_p }}
-    
+        
+        {{form.as_p}}
+
         {% if form.nested %}
             {{ form.nested.management_form }}
             {{ form.nested.non_form_errors }}
@@ -27,12 +28,12 @@
     
     {% endfor %}
 
-    <input type="submit" value="Add Questions">
+    <input type="submit" value="Add Questions" class="btn btn-lg bg-success mt-3 text-white">
     {% if object.total_questions >= 3  %}
         {% if object.is_private %}
-        <a href="{% url 'quiz:quiz_detail' object.id object.slug %}?pwd={{ object.password }}">Done</a>
+        <a href="{% url 'quiz:quiz_detail' object.id object.slug %}?pwd={{ object.password }}" class="btn bg-primary text-white">Done</a>
         {% else %}
-        <a href="{% url 'quiz:quiz_status' object.id object.slug %}">Done</a>
+        <a href="{% url 'quiz:quiz_status' object.id object.slug %}" class=" mt-3 btn bg-primary text-white">Done</a>
         {% endif %}
     {% endif %}
   </form>

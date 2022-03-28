@@ -16,9 +16,9 @@
         </ul>
     </div>
 
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" class="py-5">
     {% csrf_token %} {{ form.as_p }}
-    <input type="submit" value = "Publish" />
+    <input type="submit" value = "Publish" class="btn btn-lg btn-primary text-white" />
   </form>
 </div>
 

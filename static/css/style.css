@@ -17,6 +17,7 @@ body {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   font-size: 15px;
+  overflow-x: hidden;
 }
 
 p,
@@ -110,11 +111,6 @@ h6,
   }
 }
 
-body {
-  background-color: #fff;
-  overflow-x: hidden;
-}
-
 ::-moz-selection {
   background: #4d9ed5;
   color: #fff;
@@ -138,11 +134,11 @@ body {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 ol,
@@ -222,7 +218,9 @@ a.text-light:hover {
 }
 
 .navbar {
-  background-color: #E5E7E9  ;
+  background-color: #e5e7e9;
+  width: 100%;
+  z-index: 1000 !important;
 }
 
 .navbar .navbar-brand {
@@ -241,14 +239,17 @@ a.text-light:hover {
 
 .navbar .navbar-form {
   width: 28%;
-  border: 0.5px solid rgba(128, 128, 128, 0.5);
+  border: 0.5px solid
+    rgba(128, 128, 128, 0.5);
 }
 
 .navbar .dropdown-menu {
   left: -20% !important;
 }
 
-.navbar .dropdown-menu .dropdown-item:hover {
+.navbar
+  .dropdown-menu
+  .dropdown-item:hover {
   background-color: #e5e8e8;
 }
 
@@ -256,7 +257,7 @@ a.text-light:hover {
 .navbar .form-control:focus {
   outline: none;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .navbar .navbar-menu-open {
@@ -289,16 +290,22 @@ a.text-light:hover {
     background-color: #e5e8e8;
     -webkit-transition: left 0.5s ease;
     transition: left 0.5s ease;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid
+      rgba(0, 0, 0, 0.2);
   }
-  .navbar .navbar-menu-wrapper .navbar-menu {
+  .navbar
+    .navbar-menu-wrapper
+    .navbar-menu {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     padding-top: 2rem;
   }
-  .navbar .navbar-menu-wrapper .navbar-menu li {
+  .navbar
+    .navbar-menu-wrapper
+    .navbar-menu
+    li {
     margin-bottom: 2rem;
     font-size: 1.1rem;
   }
@@ -318,26 +325,36 @@ a.text-light:hover {
   .navbar .navbar-form {
     width: 100%;
     -webkit-box-ordinal-group: 2;
-        -ms-flex-order: 1;
-            order: 1;
+    -ms-flex-order: 1;
+    order: 1;
     margin-top: 0.75rem;
   }
 }
 
 .hero {
   background-color: #fbab7e;
-  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+  background-image: linear-gradient(
+    62deg,
+    #fbab7e 0%,
+    #f7ce68 100%
+  );
 }
 
 .hero .attrations {
   width: 130%;
   margin-left: -30%;
-  background-color: rgba(238, 146, 70, 0.8);
+  background-color: rgba(
+    238,
+    146,
+    70,
+    0.8
+  );
 }
 
 .hero .attraction {
   padding-top: 15px;
-  text-shadow: 1px 0px 5px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 0px 5px
+    rgba(0, 0, 0, 0.7);
 }
 
 .hero .attraction:nth-child(n + 2) {
@@ -359,8 +376,8 @@ a.text-light:hover {
     width: 100%;
     margin-left: 0%;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
     background-color: transparent;
   }
   .hero .attraction {
@@ -375,7 +392,6 @@ a.text-light:hover {
 
 .popular {
   margin: 60px 0px;
-
 }
 
 .popular .item {
@@ -398,7 +414,7 @@ a.text-light:hover {
 
 .reponsive {
   background-color: pink;
-  position : relative;
+  position: relative;
 }
 
 .slick-next,
@@ -407,31 +423,31 @@ a.text-light:hover {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background-color: white;
   -webkit-box-shadow: 1px 1px 6px black;
-          box-shadow: 1px 1px 6px black;
+  box-shadow: 1px 1px 6px black;
   cursor: pointer;
   z-index: 1;
 }
 
 .slick-next {
-  position : absolute;
-  top : 50%;
-  left : 98%;
+  position: absolute;
+  top: 50%;
+  left: 98%;
 }
 
 .slick-prev {
-  position : absolute;
-  top : 50%;
-  left : -2%;
+  position: absolute;
+  top: 50%;
+  left: -2%;
 }
 
 .slick-next:hover,
@@ -495,7 +511,8 @@ a.text-light:hover {
 
 .feature__info span,
 .feature__info h2 {
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 5px
+    rgba(0, 0, 0, 0.5);
 }
 
 .feature__info span {
@@ -528,8 +545,18 @@ a.text-light:hover {
 
 .cta__info {
   background: #00b4db;
-  background: -webkit-gradient(linear, left top, right top, from(#0083b0), to(#00b4db));
-  background: linear-gradient(to right, #0083b0, #00b4db);
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#0083b0),
+    to(#00b4db)
+  );
+  background: linear-gradient(
+    to right,
+    #0083b0,
+    #00b4db
+  );
 }
 
 .footer {
