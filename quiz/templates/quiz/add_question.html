@@ -8,7 +8,7 @@
     {{ form.non_form_errors }}
     
     {% for form in form.forms %}
-        
+      <h3 class= "my-4">Question - {{ forloop.counter }}</h3>
         {{form.as_p}}
 
         {% if form.nested %}
@@ -16,14 +16,15 @@
             {{ form.nested.non_form_errors }}
             <div class="container">
               <div class="row">
+                <h4 class="my-3">Answers:</h4>
             {% for nested_form in form.nested.forms %}
                   <div class="col-md-3">
                     {{ nested_form.as_p }}
                   </div>
             {% endfor %}
-          </div>
-        </div>
-    
+            <hr>
+                </div>
+            </div>
         {% endif %}
     
     {% endfor %}
