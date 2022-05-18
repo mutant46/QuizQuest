@@ -1,12 +1,10 @@
-from multiprocessing.sharedctypes import Value
-from urllib import request
 from django.forms import inlineformset_factory
 from django import forms
 from django.forms.models import BaseInlineFormSet
 from .models import Question, Quiz, Answer
 from django.core.exceptions import ValidationError
 from .utils import is_empty_form, is_being_edited
-from django.db.models import Count
+
 
 
 
