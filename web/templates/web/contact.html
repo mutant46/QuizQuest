@@ -2,11 +2,12 @@
 
 {% block content %}
 
-    <div class="container-fluid px-4 px-lg-5 py-5">
+    <div class="container px-4 px-lg-5 py-5">
 
         <div class="py-3">
             <h1>Contact Us</h1>
-            <p style="width:60%;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos officiis fugit facilis aut itaque. Dignissimos praesentium ipsam accusamus cupiditate quibusdam.</p>
+            <p style="width:60%;">We’d love to hear your thoughts feedback or even just news
+                around your latest project.</p>
         </div>
         <form method="POST">
             {% csrf_token %} {% include 'base_forms/form.html' %}

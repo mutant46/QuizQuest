@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from django.views import View
@@ -279,7 +280,7 @@ class CalcTestData(View , LoginRequiredMixin):
             for k in data.keys():
                 q = Question.objects.get(text=k, quiz = quiz)
                 ans = q.get_correct_ans().text
-                if data[q.text] != '':
+                if data[q.text][0] != '':
                     if data[q.text][0] == ans:
                         score += 1
                     result_list.append(
@@ -290,16 +291,12 @@ class CalcTestData(View , LoginRequiredMixin):
 
         if request.is_ajax():
             quiz = Quiz.objects.get(slug=kwargs.get('slug'), pk=kwargs.get('pk'))
-            print(quiz)
             data = dict(request.POST.lists())
             score, result_list = prepare_result_list(data, quiz)
             handle_result(request.user, quiz, score)
 
-        request.session['quiz_result_list'] = result_list
-        print(request.session['quiz_result_list'])
-
-        # return redirect('quizes:results', slug=kwargs.get('slug'))
         return JsonResponse({
-            'data': result_list,
-            # 'next_url': reverse("quizes:results", args=(kwargs.get('slug'),))
+            'results': result_list,
         })
+
+

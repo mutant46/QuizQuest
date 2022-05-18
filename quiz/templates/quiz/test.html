@@ -1,10 +1,29 @@
 {% extends 'base.html' %} 
 {% load static %}
-{% block title %} {{ test_quiz.name }} {% endblock %} {% block content %}
+{% block title %} Test | {{ test_quiz.name }} {% endblock %} {% block content %}
 
-<h1 class="text-center py-3">{{ test_quiz.name }}</h1>
+<h3 class="p-3 mt-5"></h3>
+<div class="container-fluid">
+  <table class="table table-borderd">
+    <thead>
+      <tr>
+        <th>Quiz Name</th>
+        <th>Time</th>
+        <th>Passing Score</th>
+        <th>Difficulity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class = "p-3">{{ test_quiz.name }}</td>
+        <td class = "p-3">{{ test_quiz.time }} mins</td>
+        <td class = "p-3">{{ test_quiz.percentage }}</td>
+        <td class = "p-3">{{ test_quiz.difficulity }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<hr />
 
 <div class="container-fluid p-3 mt-5">
   <style>
@@ -24,6 +43,10 @@
 
     <button class="btn btn-primary mt-3" id="submit" type="button">Submit</button>
   </form>
+</div>
+
+<div class="container result-box">
+
 </div>
 
 {% endblock %} {% block script %}
