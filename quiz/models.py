@@ -93,6 +93,12 @@ class Quiz(models.Model):
     def is_private(self):
         return self.status == 'private'
 
+    def get_questions(self):
+        '''
+        returns all question related to that quiz
+        '''
+        return self.questions.all()
+
 
 # ------------------------------------------------------------ 
 
@@ -110,9 +116,11 @@ class Question(models.Model):
     def __str__(self):
         return "%s" % self.text
 
+    def get_answers(self):
+        return self.answers.all()
 
     def get_correct_ans(self):
-        return self.answers.all().filter(correct = True)
+        return self.answers.get(correct = True)
 
 
 # ------------------------------------------------------------- 

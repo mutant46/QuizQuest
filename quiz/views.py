@@ -1,12 +1,17 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from django.views import View
 from quiz.utils import generate_random_string
 from .models import Quiz
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from .forms import QuestionForm, PrivateQuizForm, PublicQuizForm, QuizPublishForm
 from .owner import OwnerCreateView, OwnerUpdateView, OwnerQuestionCreateView, OwnerDetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
+import random
+from result.models import Result
+from .models import Question
 
 
 
@@ -207,3 +212,94 @@ class QuizSearchView(ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(name__icontains=self.request.GET['q'])
+
+
+class Test(LoginRequiredMixin, View):
+    '''
+    veiw for that test page
+    '''
+    def get(self, request, *args, **kwargs):
+        quiz = get_object_or_404(Quiz, slug=kwargs.get('slug'), pk=kwargs.get('pk'))
+        context = {
+            'test_quiz': quiz,
+        }
+        return render(request, 'quiz/test.html', context)
+
+
+class TestData(LoginRequiredMixin, View):
+    '''
+    Preparing and sending Question & Answers as json for 
+    Quiz.slug = slug 
+    '''
+
+    def get(self, request, *args, **kwargs):
+        quiz = get_object_or_404(Quiz, slug=kwargs.get('slug'), pk=kwargs.get('pk'))
+        questions = []
+        for q in quiz.get_questions():
+            questions.append({str(q): [a.text for a in q.get_answers()]})
+        random.shuffle(questions)
+        return JsonResponse({
+            'data': questions,
+            'time': quiz.time
+        })
+
+
+class CalcTestData(View , LoginRequiredMixin):
+
+    def post(self, request, *args, **kwargs):
+        '''
+        Handling Test data from Ajax , Calculate and return results
+        '''
+
+        def handle_result(user, quiz, score):
+            '''
+            Create or update the results for the user 
+            with this quiz 
+            '''
+            score = score / quiz.total_questions() * 100
+            status = 'Pass' if score >= quiz.percentage else 'Fail'
+            try:
+                retaken = Result.objects.get(user=user, quiz=quiz)
+            except Result.DoesNotExist:
+                Result.objects.create(user=user, quiz=quiz,
+                                      percentage=score, status=status).save()
+            else:
+                retaken.percentage = score
+                retaken.status = status
+                retaken.save()
+
+        def prepare_result_list(data, quiz):
+            '''
+            Comparing User Test data with actual answers 
+            & returning result_list
+            '''
+            result_list = []
+            score = 0
+            data.pop('csrfmiddlewaretoken')
+            for k in data.keys():
+                q = Question.objects.get(text=k, quiz = quiz)
+                ans = q.get_correct_ans().text
+                if data[q.text] != '':
+                    if data[q.text][0] == ans:
+                        score += 1
+                    result_list.append(
+                        {str(q): {'correct_answer': ans, 'answerd': data[q.text][0]}})
+                else:
+                    result_list.append({q.text: "not answered"})
+            return score, result_list
+
+        if request.is_ajax():
+            quiz = Quiz.objects.get(slug=kwargs.get('slug'), pk=kwargs.get('pk'))
+            print(quiz)
+            data = dict(request.POST.lists())
+            score, result_list = prepare_result_list(data, quiz)
+            handle_result(request.user, quiz, score)
+
+        request.session['quiz_result_list'] = result_list
+        print(request.session['quiz_result_list'])
+
+        # return redirect('quizes:results', slug=kwargs.get('slug'))
+        return JsonResponse({
+            'data': result_list,
+            # 'next_url': reverse("quizes:results", args=(kwargs.get('slug'),))
+        })

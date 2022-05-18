@@ -34,7 +34,7 @@
     </div>
 
     {% if not quiz.user == request.user %}
-    <a href="#" class="btn btn-lg btn-primary">Take Test</a>
+    <a href="{% url 'quiz:test-quiz-page' quiz.pk quiz.slug %}" class="btn btn-lg btn-primary">Take Test</a>
 {% endif %}  
 </div>
 

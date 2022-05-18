@@ -1,0 +1,33 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} {{ test_quiz.name }} {% endblock %} {% block content %}
+
+<h1 class="text-center py-3">{{ test_quiz.name }}</h1>
+
+<hr />
+
+<div class="container-fluid p-3 mt-5">
+  <style>
+    label {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .option {
+      height: 100%;
+    }
+  </style>
+
+  <form action="" id="quiz-form" class="my-3">
+    {% csrf_token %}
+    <div class="quiz-box"></div>
+
+    <button class="btn btn-primary mt-3" id="submit" type="button">Submit</button>
+  </form>
+</div>
+
+{% endblock %} {% block script %}
+
+<script src="{% static 'js/test.js' %}"></script>
+
+{% endblock %}
