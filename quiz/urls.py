@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import QuizSearchView, AllQuizesView, CreateQuizView, QuizDetailView, QuizQuestionCreateView, QuizStatusView, QuizUpdateView, QuizStatusUpdateView, QuizCategoryView
+from .views import QuizSearchView, AllQuizesView, CreateQuizView, QuizDetailView, QuizQuestionCreateView, QuizStatusView, QuizUpdateView, QuizStatusUpdateView, QuizCategoryView, TestData, Test, CalcTestData
 
 app_name = 'quiz'
 urlpatterns = [
@@ -17,4 +17,9 @@ urlpatterns = [
     path('category/<str:category>/',
          QuizCategoryView.as_view(), name='quizes_by_category'),
     path('search/', QuizSearchView.as_view(), name='quizes_search'),
+    path('<int:pk>/<slug:slug>/test', Test.as_view(), name='test-quiz-page'),
+    path('<int:pk>/<slug:slug>/test/data', TestData.as_view(), name='test-quiz-data'),
+    path('<int:pk>/<slug:slug>/test/calculate-result',
+         CalcTestData.as_view(), name='calculate-test-result'),
+
 ]

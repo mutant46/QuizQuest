@@ -9,7 +9,7 @@
 <div class="container bg-gray mt-5 px-5 w-50">
     <h1 class="text-center pt-5">Welcome Back</h1>
     <p class="text-center mb-5">Don't have an account? <a href="{% url 'account_signup' %}">Sign Up</a></p>
-    <form class="login" method="POST" action="{% url 'account_login' %}">
+    <form class="login" method="POST" action="{% url 'account_login' %}" style="margin-top: 100px">
         {% csrf_token %}
         {% include "base_forms/form.html" %}
         {% if redirect_field_value %}

@@ -90,7 +90,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                MuTanT46
+                {{ request.user.username }}
               </button>
               <ul
                 class="dropdown-menu dropdown-menu-light dropstart"
@@ -143,5 +143,6 @@
     <script src={% static "plugins/jQuery/jquery.min.js" %}></script>
     <script src={% static "plugins/slick/slick.min.js" %}></script>
     <script src={% static "js/script.js" %}></script>
+    {% block script %}{% endblock script %}
   </body>
 </html>
