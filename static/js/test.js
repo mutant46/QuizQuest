@@ -2,6 +2,7 @@ const url = window.location.href;
 const quizForm = document.querySelector("#quiz-form");
 const quizBox = document.querySelector(".quiz-box");
 const submit = document.querySelector("#submit");
+const ResultBox = document.querySelector('.result-box')
 let questions_data;
 $.ajax({
   type: "GET",
@@ -59,7 +60,31 @@ const sendData = () => {
   return data;
 };
 
-function showResults(response) {}
+function showResults(response) {
+  quizForm.classList.add('d-none')
+  const results = response.results
+  const childCls = ['container-fluid', 'p-3', 'text-white', 'mb-2', 'font-weight-normal']
+  for (let x of results) {
+    const questionBox = document.createElement('div')
+    questionBox.classList.add(...childCls)
+    const question = Object.keys(x)[0]
+    console.log(question, x[question].answerd)
+
+    if (x[question] == "not answered") {
+      questionBox.innerHTML += `<p>${question} | not answered</p>`
+      questionBox.classList.add('bg-djanger')
+    }
+    else if (x[question].answerd == x[question].correct_answer) {
+      questionBox.innerHTML += `<p>${question} | you answered : ${x[question].answerd}  | correct</p>`
+      questionBox.classList.add('bg-success')
+    }
+    else {
+      questionBox.innerHTML += `<p>${question} correct : ${x[question].correct_answer} | incorrect</p>`
+      questionBox.classList.add('bg-danger')
+    }
+    ResultBox.appendChild(questionBox)
+  }
+}
 
 submit.addEventListener("click", (e) => {
   e.preventDefault();
