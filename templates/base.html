@@ -93,19 +93,19 @@
                 {{ request.user.username }}
               </button>
               <ul
-                class="dropdown-menu dropdown-menu-light dropstart"
+                class="dropdown-menu dropdown-menu-light position-absolute" style="left : -4.5em !important"
                 aria-labelledby="profileDropdown"
               >
                 <li>
-                  <a class="dropdown-item mb-2 py-2" href="{% url 'dashboard' %}">Dashboard</a>
+                  <a class="dropdown-item mb-2 py-2 small" href="{% url 'dashboard' %}">Dashboard</a>
                 </li>
                 <li>
-                  <a class="dropdown-item mb-2 py-2" href="{% url 'account_change_password' %}">Change Password</a>
+                  <a class="dropdown-item mb-2 py-2 small" href="{% url 'account_change_password' %}">Change Password</a>
                 </li>
                 <li>
                   <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="dropdown-item mb-2 py-2 ps-3 border-0">Log out</button>
+                    <button type="submit" class="dropdown-item mb-2 py-2 ps-3 border-0 small">Log out</button>
                   </form>
                 </li>
               </ul>

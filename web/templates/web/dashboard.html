@@ -31,8 +31,8 @@
             <div class="card py-4 shadow-lg">
                 <div class="card-body">
                     <h5 class="card-title">Manage Public Quizes</h5>
-                    <p class="card-text">Create a new quiz and add questions to it.</p>
-                    <a href="#" class="btn btn-primary">Manage Public</a>
+                    <p class="card-text">see all your public quizes and add questions to it.</p>
+                    <a href="{% url 'public_quiz_list' %}" class="btn btn-primary">Manage Public</a>
                 </div>
             </div>
         </div>
@@ -40,8 +40,17 @@
             <div class="card py-4 shadow-lg">
                 <div class="card-body">
                     <h5 class="card-title">Manage Private Quizes</h5>
-                    <p class="card-text">Create a new quiz and add questions to it.</p>
-                    <a href="#" class="btn btn-primary">Manage Private</a>
+                    <p class="card-text">Create a new private quiz and add questions to it.</p>
+                    <a href="{% url 'private_quiz_list' %}" class="btn btn-primary">Manage Private</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card py-4 shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">Check Results</h5>
+                    <p class="card-text">Check your results of taken quizes.</p>
+                    <a href="{% url 'quiz_results' %}" class="btn btn-primary">Check Results</a>
                 </div>
             </div>
         </div>
