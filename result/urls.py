@@ -1,8 +1,9 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from .views import (
     ResultView
 )
-app_name = 'result'
 urlpatterns = [
-    path('result/', ResultView.as_view(), name='test-result-page'),
+    path('quiz/<int:pk>/<slug:slug>/', ResultView.as_view(), name='test-result-page'),
+
 ]

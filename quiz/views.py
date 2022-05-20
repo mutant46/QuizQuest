@@ -295,6 +295,12 @@ class CalcTestData(View , LoginRequiredMixin):
             score, result_list = prepare_result_list(data, quiz)
             handle_result(request.user, quiz, score)
 
+            popularity = request.session.get('submission', True)
+            if popularity:
+                quiz.papularity += 1
+                request.session['submission'] = False
+                quiz.save()
+
         return JsonResponse({
             'results': result_list,
         })

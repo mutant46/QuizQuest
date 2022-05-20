@@ -1,17 +1,18 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
+from django.views.generic import *
+from .models import Result
+from quiz.models import Quiz
 
 
 class ResultView(View, LoginRequiredMixin):
-    '''
-    veiw for that test page
-    '''
+    template_name = 'result/result.html'
+
+    def get_queryset(self):
+        q = get_object_or_404(
+            Quiz, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+        return Result.objects.get(quiz=q, user=self.request.user)
+
     def get(self, request, *args, **kwargs):
-        x = request.session.get('quiz_result_list')
-        print(type(x))
-        context = {
-            'result_list' : list(request.session.get('quiz_result_list'))
-        }
-        return render(request, 'result/result.html', context)
+        result = self.get_queryset()
+        return render(request, self.template_name, {'quiz_result': result})

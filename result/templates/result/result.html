@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Quiz Results {% endblock %}
+
+{% block content %}
+
+<div class="contianer-fluid p-5 m-3">
+    <div class="mt-3">
+        <h2>Quize Results</h2>
+        <br>
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th>Quiz Name</th>
+              <th>Quiz Passing Percentage</th>
+              <th>Your Percentage</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="py-3"><a href="{% url 'quiz:quiz_detail' quiz_result.quiz.pk quiz_result.quiz.slug %}">{{quiz_result.quiz.name}}</a></td>
+              <td class="py-3">{{quiz_result.quiz.percentage}}</td>
+              <td class="py-3">{{quiz_result.percentage}}</td>
+              <td class="py-3">{{ quiz_result.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>
+{% endblock content %}
+
