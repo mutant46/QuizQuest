@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+
+  db:
+    image: postgres:11
+    environment:
+      - POSTGRES_USER=mutant
+      - POSTGRES_PASSWORD=mutant46
+    ports:
+      - "5432:5432"
+    volumes:
+      - quizquest_volume:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes: 
+  quizquest_volume:
