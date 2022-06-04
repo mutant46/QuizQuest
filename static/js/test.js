@@ -102,7 +102,7 @@ submit.addEventListener("click", (e) => {
   data = sendData();
   $.ajax({
     type: "POST",
-    url: `${url}/calculate-result`,
+    url: `${url}/calculate-result/`,
     data: data,
     success: (response) => showResults(response),
     error: (error) => console.log(error),

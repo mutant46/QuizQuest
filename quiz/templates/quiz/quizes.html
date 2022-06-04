@@ -12,18 +12,22 @@
     </div>
     {% else  %}
     <h2 class="mb-5">Explore Quizes</h2>
-    <div class="row">
+    <div class="d-flex justify-content-center justify-content-md-start flex-wrap">
         {% for quiz in quizes %}
-            <div class="col-md-4 mb-5">
-                <div class="card shadow-lg" style="width: ;">
+            <div class="mb-5 me-5">
+                <div class="explore-card p-3 card ">
                     <img src={{ quiz.image.url }} class="card-img-top" alt="..." height="230px">
-                    <div class="card-body">
-                        <h5 class="card-title py-2">{{ quiz.name }}</h5>
-                        <div class="d-flex justify-content-between">
-                            <p class="card-text">{{ quiz.papularity }} submissions</p>
-                            <p class="card-text">{{ quiz.difficulity }}</p>
+                    <div class="card-body p-0">
+                        <h4 class="card-title mt-4 mb-3">{{ quiz.name }}</h4>
+                        <div class="card-text-holder d-flex justify-content-between">
+                            <p class="card-text ">Submissions</p>
+                            <p class="card-text">{{ quiz.papularity }}</p>
                         </div>
-                        <a href="{% url 'quiz:quiz_detail' quiz.pk quiz.slug %}" class="btn btn-primary">read more</a>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text ">Ratings</p>
+                            <p class="card-text">{{ quiz.ratings }}</p>
+                        </div>
+                        <a href="{% url 'quiz:quiz_detail' quiz.pk quiz.slug %}" class=" my-2 text-primary ps-0 d-flex align-items-center fw-bold">Read more <i class="fa-solid fa-arrow-right ms-2 mt-1"></i></a>
                     </div>
                 </div>
             </div>

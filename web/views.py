@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import *
-from .models import Contact
-from quiz.models import Quiz, Category
+from .models import Contact, Category
+from quiz.models import Quiz
 from result.models import Result
 
 # Create your views here.
@@ -32,9 +32,8 @@ class PublicQuizListView(ListView):
     model = Quiz
     context_object_name = 'quizes'
 
-
     def get_queryset(self):
-        return super().get_queryset().filter(status = "public" , user=self.request.user)
+        return super().get_queryset().filter(status="public", user=self.request.user)
 
 
 class PrivateQuizListView(ListView):
@@ -42,10 +41,8 @@ class PrivateQuizListView(ListView):
     model = Quiz
     context_object_name = 'quizes'
 
-
     def get_queryset(self):
-        return super().get_queryset().filter(status = "private" , user=self.request.user)
-
+        return super().get_queryset().filter(status="private", user=self.request.user)
 
 
 class QuizResultView(ListView):
@@ -53,8 +50,5 @@ class QuizResultView(ListView):
     model = Result
     context_object_name = 'quiz_results'
 
-
-
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
-    

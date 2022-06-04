@@ -5,19 +5,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QuizQuest | {% block title %} A revolutionary way to educate{% endblock title %} </title>
+    <title>QuizQuest  | {% block title %} A revolutionary way to educate{% endblock title %} </title>
     <!-- info : Plugins -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href={% static 'plugins/bootstrap/bootstrap.min.css' %} />
-    <link rel="stylesheet" type="text/css" href={% static
-    "plugins/slick/slick-theme.css" %} /> <link rel="stylesheet" type="text/css"
-    href={% static "plugins/slick/slick.css" %} />
-
+     <link rel="stylesheet" type="text/css" href={% static "plugins/slick/slick.css" %} />
     <!-- info : Custom Stylesheet -->
     <link rel="stylesheet" href={% static "css/style.css" %} />
-
-    <!-- info: themeify icons -->
-    <link rel="stylesheet" href={% static "plugins/themify-icons/themify-icons.css"
-    %} />
   </head>
   <body>
     {% block navbar %}
@@ -44,6 +38,9 @@
               </li>
               <li class="nav-item ms-lg-1">
                 <a class="nav-link" href="{% url 'quiz:quizes' %}">Explore</a>
+              </li>
+              <li class="nav-item ms-lg-1">
+                <a class="nav-link" href="{% url 'contact' %}">Books</a>
               </li>
               <li class="nav-item ms-lg-1">
                 <a class="nav-link" href="{% url 'contact' %}">Contact</a>
@@ -119,7 +116,7 @@
     <br />
     {% block footer %}
     <!-- info : footer -->
-    <footer class="mt-5">
+    <footer class="">
       <div class="continer footer px-4 px-lg-5 pt-5 pb-4">
         <a class="navbar-brand h4 text-white" href="#">QuizQuest</a>
         <br />
@@ -131,14 +128,13 @@
           <a href="{% url 'contact' %}" class="menu-item">Contact</a>
         </div>
 
-        <hr class="text-white mt-3" />
-        <div class="copywrite">
+        <hr class="text-white mt-1" />
+        <div class="copywrite mt-3">
           <span class="text-white">Copyright © 2022 QuizQuest.</span>
         </div>
       </div>
     </footer>
     {% endblock footer %}
-
     <script src={% static "plugins/bootstrap/bootstrap.min.js" %}></script>
     <script src={% static "plugins/jQuery/jquery.min.js" %}></script>
     <script src={% static "plugins/slick/slick.min.js" %}></script>

@@ -16,12 +16,20 @@
   font-size : 14px;
 }
 
+html {
+  scroll-behavior: smooth;
+  height : 100%;
+}
+
 body {
   line-height: 1.2;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   font-size: 15px;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 p,
@@ -356,10 +364,8 @@ a.text-light:hover {
   );
 }
 
-.hero .attraction {
+.hero .attraction span {
   padding-top: 15px;
-  text-shadow: 1px 0px 5px
-    rgba(0, 0, 0, 0.7);
 }
 
 .hero .attraction:nth-child(n + 2) {
@@ -404,6 +410,26 @@ a.text-light:hover {
   margin-right: 40px;
   cursor: pointer;
 }
+
+
+/* Info : Explore Card design */
+
+.explore-card {
+  border-radius : 5px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.explore-card img {
+  border-radius : 5px;
+  width: 300px;
+  height : 270px;
+}
+
+.card-text-holder {
+  height : 32px;
+  font-weight: normal;
+}
+
 
 @media (max-width: 1100px) {
   .popular {
@@ -473,7 +499,7 @@ a.text-light:hover {
 
 .about {
   margin: 60px 0px;
-  background-color: #f7c76c;
+  background-color: #D6DBDF ;
 }
 
 @media (max-width: 1100px) {
@@ -501,7 +527,7 @@ a.text-light:hover {
 }
 
 .feature__img img {
-  border-radius: 16px;
+  border-radius: 8px;
   max-height: 500px;
 }
 
@@ -529,25 +555,6 @@ a.text-light:hover {
   font-size: 1.25rem;
   font-family: "RobotoMono";
 }
-
-@media (max-width: 1100px) {
-  .feature {
-    margin: 25px 0px;
-  }
-  .feature__p {
-    width: 80%;
-  }
-}
-
-@media (max-width: 768px) {
-  .feature {
-    margin: 15px 0px;
-  }
-  .feature__p {
-    width: 100%;
-  }
-}
-
 .cta__info {
   background: #00b4db;
   background: -webkit-gradient(
@@ -564,8 +571,12 @@ a.text-light:hover {
   );
 }
 
+footer {
+  margin-top : auto;
+}
+
 .footer {
-  background-color: #17202a;
+  background-color: black;
 }
 
 .footer .navbar-brand {
@@ -573,7 +584,7 @@ a.text-light:hover {
 }
 
 .footer .footer-menu {
-  width: 50%;
+  width: 40%;
 }
 
 .footer .footer-menu .menu-item {
@@ -593,3 +604,23 @@ a.text-light:hover {
 .min-height {
   min-height: 50vh;
 }
+
+
+@media (max-width: 1100px) {
+  .feature {
+    margin: 25px 0px;
+  }
+  .feature__p {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature {
+    margin: 15px 0px;
+  }
+  .feature__p {
+    width: 100%;
+  }
+}
+

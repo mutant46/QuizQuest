@@ -36,7 +36,7 @@ $(document).ready(function () {
   });
   // navbar onClick function
   $("#hamburger").click(() => {
-    $("#navbar").css("height", document.body.clientHeight);
+    $('body').toggleClass('overflow-hidden');
     $("#mynavbar").toggleClass("navbar-menu-open");
   });
 
@@ -45,6 +45,7 @@ $(document).ready(function () {
     var _opened = $("#mynavbar").hasClass("navbar-menu-open");
     if (_opened && !$(target).is("#hamburger")) {
       $("#mynavbar").removeClass("navbar-menu-open");
+      $("body").removeClass("overflow-hidden");
     }
   });
 });
