@@ -1,41 +1,58 @@
 {% extends 'base.html' %}
-
-
+{% load static %}
 {% block content %}
 
 
 
-<div class="container-fluid px-4 px-lg-5 py-5 min-height">
-    <div class="row pb-5">
-        <div class="col-sm-12 mb-5 d-flex justify-content-between">
-            <h2>Quiz Detail</h2>
-            <div class="">
-                {% if quiz.user == request.user %}
-                <a href="{% url 'quiz:edit_quiz' quiz.pk quiz.slug %}" class="btn btn-lg btn-primary">Edit Quiz Details</a>
-                <a href="{% url 'quiz:add_question' quiz.pk quiz.slug %}" class="btn btn-lg btn-primary ms-3">Edit Questions</a>
-            {% endif %}    
-            </div>
+<div class="container-fluid px-4 px-lg-5 py-4">
+    <div class="row my-4">
+        <div class="col-6 d-flex align-items-center">
+            {% if not quiz.user.image %}
+            <img src="{% static 'images/avatar.png' %}" alt="" width="60px">
+            {% else %}
+            <img src="{{ quiz.user.image.url }}" alt="" width="40px">
+            {% endif %}
+            <span class="ms-3 fw-bold fs-3">{{ quiz.user.username | title }}</span>
         </div>
-        <div class="col-sm-12 col-md-6">
+        <div class="col-6 d-flex align-items-center justify-content-end">
+            {% if quiz.user == request.user %}
+                <a href="{% url 'quiz:edit_quiz' quiz.pk quiz.slug %}" title="edit quiz" class="bg-warning p-3 rounded-circle me-3">
+                    <i class="fa-solid text-white fa-marker fs-6"></i>
+                </a>
+                {% if quiz.status == "private" %}
+                    <span id="quiz_url" data-value="http://{{request.META.HTTP_HOST}}{% url 'quiz:quiz_detail' quiz.pk quiz.slug %}?pwd={{quiz.password}}" title="copy quiz url" class="bg-warning p-3 rounded-circle">
+                        <i class="fa-solid fa-copy text-white fs-6"></i>
+                    <span>
+                {% elif quiz.status == "public" %}
+                <span id="quiz_url" data-value="http://{{ request.META.HTTP_HOST }}{% url 'quiz:quiz_detail' quiz.pk quiz.slug %}" title="copy quiz url" class="bg-warning p-3 rounded-circle">
+                    <i class="fa-solid fa-copy text-white fs-6"></i>
+                <span>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row gap-2 gap-md-0">
+        <div class="col-md-6">
             <img src="{{ quiz.image.url }}" alt="" width="100%" height="100%">
         </div>
-        <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-around py-4">
-            <h4>Name        : <span class="text-info">{{ quiz.name }}</span></h4>
-            <h4>Submissions : <span class="text-info">{{ quiz.papularity }}</span></h4>
-            <h4>Owner : <span class="text-info">{{ quiz.user.username }}</span></h4>
-            <h4>difficulity : <span class="text-info">{{ quiz.difficulity }}</span></h4>
-            <h4>Passing Score : <span class="text-info">{{ quiz.percentage }}</span></h4>
-            <h4>Time : <span class="text-info">{{ quiz.time }}</span></h4>
+        <div class="col-sm-12 col-md-6 py-4 d-flex flex-column justify-content-center">
+            <h2 class="py-2">{{ quiz.name }}</h2>
+            <p class="fw-bold">{{ quiz.desc }}</p>
+            <div class="quiz-contents d-flex flex-wrap text-white">
+                <span class="px-4 py-2  m-2 rounded-pill">{{ quiz.papularity }} Submissions</span>
+                <span class="px-5 py-2  m-2 rounded-pill">{{ quiz.percentage | floatformat}}% required</span>
+                <span class="px-4 py-2  m-2 rounded-pill">{{ quiz.time }} Min</span>
+                <span class="px-4 py-2  m-2 rounded-pill">{{ quiz.difficulity | title }}</span>
+                <span class="px-5 py-2  m-2 rounded-pill">{{ quiz.ratings}} ratings</span>
+            </div>
         </div>
-        <div class="col-sm-12  mt-5">
-            <h4>Description :</h4>
-            <p>{{ quiz.desc }}</p>
+        <div class="col-12 mt-5 mb-4">
+            {% if not quiz.user != request.user %}
+                <a href="{% url 'quiz:test-quiz-page' quiz.pk quiz.slug %}" class="btn btn-lg py-3 bg-success d-block text-white">Take Test</a>
+            {% endif %}  
         </div>
     </div>
 
-    {% if not quiz.user == request.user %}
-    <a href="{% url 'quiz:test-quiz-page' quiz.pk quiz.slug %}" class="btn btn-lg btn-primary">Take Test</a>
-{% endif %}  
 </div>
 
 {% endblock content %}

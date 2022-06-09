@@ -430,6 +430,13 @@ a.text-light:hover {
   font-weight: normal;
 }
 
+/* Info : Quiz Detail page */
+
+
+.quiz-contents span {
+  background-color : #EB984E
+}
+
 
 @media (max-width: 1100px) {
   .popular {

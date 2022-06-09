@@ -48,4 +48,10 @@ $(document).ready(function () {
       $("body").removeClass("overflow-hidden");
     }
   });
+
+  $("#quiz_url").click(() => {
+    // $("#quiz_url").attr('data-value').select();
+    console.log($("#quiz_url").attr('data-value'));
+    navigator.clipboard.writeText($("#quiz_url").attr('data-value'));
+  })
 });
