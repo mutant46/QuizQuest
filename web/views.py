@@ -1,3 +1,4 @@
+from calendar import c
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -5,8 +6,6 @@ from django.views.generic import *
 from .models import Contact, Category
 from quiz.models import Quiz
 from result.models import Result
-
-# Create your views here.
 
 
 def home(request):
@@ -45,6 +44,15 @@ class PrivateQuizListView(ListView):
         return super().get_queryset().filter(status="private", user=self.request.user)
 
 
+class DraftQuizListView(ListView):
+    template_name = 'web/draft_list.html'
+    model = Quiz
+    context_object_name = 'quizes'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(status="draft", user=self.request.user)
+
+
 class QuizResultView(ListView):
     template_name = 'web/quiz_results.html'
     model = Result
@@ -52,3 +60,17 @@ class QuizResultView(ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+
+
+class PrivateQuizSubmissionsView(ListView):
+    template_name = 'web/private_submit.html'
+    model = Result
+    context_object_name = 'results'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['quiz'] = Quiz.objects.get(id=self.kwargs['id'])
+        return context
+
+    def get_queryset(self):
+        return super().get_queryset().filter(quiz_id=self.kwargs['id'])

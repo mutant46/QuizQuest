@@ -3,7 +3,8 @@ from django.views.generic import TemplateView
 from .views import (
     ResultView,
     TestData,
-    CalcTestData
+    CalcTestData,
+    EXportResultsView
 )
 urlpatterns = [
     path('quizes/<int:pk>/<slug:slug>/test/data/',
@@ -13,5 +14,7 @@ urlpatterns = [
 
     path('quiz/<int:pk>/<slug:slug>/',
          ResultView.as_view(), name='test-result-page'),
+    path('download-result/<int:pk>/',
+         EXportResultsView.as_view(), name='download-result'),
 
 ]

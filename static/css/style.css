@@ -432,6 +432,14 @@ a.text-light:hover {
 
 /* Info : Quiz Detail page */
 
+#quiz_url {
+  cursor :pointer;
+}
+
+.quiz-detail *:hover {
+  background-color: #EB984E !important;
+}
+
 
 .quiz-contents span {
   background-color : #EB984E

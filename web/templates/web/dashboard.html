@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Create Public Quiz</h5>
                     <p class="card-text">Create a new quiz and add questions to it.</p>
-                    <a href="{% url 'quiz:create_quiz' %}?status=public" class="btn btn-primary">Create Quiz</a>
+                    <a href="{% url 'quiz:create_quiz' %}?status=public" class="btn btn-primary">Create</a>
                 </div>
             </div>
         </div>
@@ -23,7 +23,16 @@
                 <div class="card-body">
                     <h5 class="card-title">Create Private Quiz</h5>
                     <p class="card-text">Create a new quiz and add questions to it.</p>
-                    <a href="{% url 'quiz:create_quiz' %}?status=private" class="btn btn-primary">Create Quiz</a>
+                    <a href="{% url 'quiz:create_quiz' %}?status=private" class="btn btn-primary">Create</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card py-4 shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Draft Quizes</h5>
+                    <p class="card-text">see all your public quizes and add questions to it.</p>
+                    <a href="{% url 'draft_quiz_list' %}" class="btn btn-primary">Manage </a>
                 </div>
             </div>
         </div>
@@ -32,7 +41,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Manage Public Quizes</h5>
                     <p class="card-text">see all your public quizes and add questions to it.</p>
-                    <a href="{% url 'public_quiz_list' %}" class="btn btn-primary">Manage Public</a>
+                    <a href="{% url 'public_quiz_list' %}" class="btn btn-primary">Manage </a>
                 </div>
             </div>
         </div>
@@ -40,8 +49,8 @@
             <div class="card py-4 shadow-lg">
                 <div class="card-body">
                     <h5 class="card-title">Manage Private Quizes</h5>
-                    <p class="card-text">Create a new private quiz and add questions to it.</p>
-                    <a href="{% url 'private_quiz_list' %}" class="btn btn-primary">Manage Private</a>
+                    <p class="card-text">see all your public quizes and add questions to it.</p>
+                    <a href="{% url 'private_quiz_list' %}" class="btn btn-primary">Manage </a>
                 </div>
             </div>
         </div>

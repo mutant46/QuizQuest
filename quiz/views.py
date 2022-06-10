@@ -1,9 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from django.views import View
 from quiz.utils import generate_random_string
 from .models import Quiz
-from question.models import Question
+from question.models import Question, Answer
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from question.forms import QuestionForm
@@ -19,7 +20,6 @@ from .owner import (
     OwnerDetailView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from result.models import Result
 
 
 class AllQuizesView(ListView):
@@ -156,9 +156,9 @@ class QuizUpdateView(OwnerUpdateView):
         return PublicQuizForm
 
     def get_success_url(self):
-        ''' Rediredtin user back to the quiz detail 
+        ''' Rediredtin user back to the quiz detail
             page '''
-        return reverse_lazy('quiz:quiz_detail', kwargs={'slug': self.object.slug, 'pk': self.object.pk})
+        return reverse_lazy('quiz:add_question', kwargs={'pk': self.object.id, 'slug': self.object.slug})
 
 
 class QuizStatusUpdateView(QuizStatusView):
@@ -210,7 +210,7 @@ class QuizSearchView(ListView):
     context_object_name = 'quizes'
 
     def get_queryset(self):
-        return super().get_queryset().filter(name__icontains=self.request.GET['q'])
+        return super().get_queryset().filter(name__icontains=self.request.GET['q']).values('papularity', 'ratings')
 
 
 class Test(LoginRequiredMixin, View):
@@ -219,9 +219,52 @@ class Test(LoginRequiredMixin, View):
     '''
 
     def get(self, request, *args, **kwargs):
+        valid = request.session.get('valid', True)
         quiz = get_object_or_404(
             Quiz, slug=kwargs.get('slug'), pk=kwargs.get('pk'))
         context = {
             'test_quiz': quiz,
         }
-        return render(request, 'quiz/test.html', context)
+        if quiz.is_private() and valid:
+            request.session['valid'] = False
+            return render(request, 'quiz/test.html', context)
+        elif not quiz.is_private():
+            return render(request, 'quiz/test.html', context)
+        # Info : kinldy make this page to redirect
+        return HttpResponse('You have already taken this quiz')
+
+
+class CloneQuizView(LoginRequiredMixin, View):
+    '''
+    view for cloning a quiz
+    '''
+
+    def get(self, request, *args, **kwargs):
+        quiz = get_object_or_404(
+            Quiz, slug=kwargs.get('slug'), pk=kwargs.get('pk'))
+        new_quiz = Quiz.objects.create(name=quiz.name, desc=quiz.desc,
+                                       category=quiz.category,
+                                       user=request.user,
+                                       status='private',
+                                       password=generate_random_string(),
+                                       slug=quiz.slug,
+                                       ratings=0,
+                                       papularity=0,
+                                       difficulity=quiz.difficulity,
+                                       image=quiz.image,
+                                       time=quiz.time,
+                                       percentage=quiz.percentage,
+                                       )
+        new_quiz.save()
+        for question in quiz.questions.all():
+            new_question = Question.objects.create(
+                quiz=new_quiz,
+                text=question.text)
+            new_question.save()
+            for answer in question.answers.all():
+                new_answer = Answer.objects.create(
+                    question=new_question,
+                    text=answer.text,
+                    correct=answer.correct)
+                new_answer.save()
+        return redirect(reverse_lazy('quiz:edit_quiz', kwargs={'pk': new_quiz.id, 'slug': new_quiz.slug}))

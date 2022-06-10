@@ -14,7 +14,7 @@
             {% endif %}
             <span class="ms-3 fw-bold fs-3">{{ quiz.user.username | title }}</span>
         </div>
-        <div class="col-6 d-flex align-items-center justify-content-end">
+        <div class="quiz-detail col-6 d-flex align-items-center justify-content-end">
             {% if quiz.user == request.user %}
                 <a href="{% url 'quiz:edit_quiz' quiz.pk quiz.slug %}" title="edit quiz" class="bg-warning p-3 rounded-circle me-3">
                     <i class="fa-solid text-white fa-marker fs-6"></i>
@@ -28,6 +28,10 @@
                     <i class="fa-solid fa-copy text-white fs-6"></i>
                 <span>
                 {% endif %}
+            {% else %}
+            <a href="{% url 'quiz:clone-quiz' quiz.pk quiz.slug %}" title="Clone Quiz" class="bg-warning p-3 rounded-circle me-3">
+                <i class="fa-solid fa-closed-captioning text-white"></i>
+            </a>
             {% endif %}
         </div>
     </div>
@@ -47,7 +51,7 @@
             </div>
         </div>
         <div class="col-12 mt-5 mb-4">
-            {% if not quiz.user != request.user %}
+            {% if not quiz.user == request.user %}
                 <a href="{% url 'quiz:test-quiz-page' quiz.pk quiz.slug %}" class="btn btn-lg py-3 bg-success d-block text-white">Take Test</a>
             {% endif %}  
         </div>

@@ -10,6 +10,7 @@ from .views import (
     QuizStatusUpdateView,
     QuizCategoryView,
     Test,
+    CloneQuizView,
 )
 
 app_name = 'quiz'
@@ -29,5 +30,7 @@ urlpatterns = [
          QuizCategoryView.as_view(), name='quizes_by_category'),
     path('search/', QuizSearchView.as_view(), name='quizes_search'),
     path('<int:pk>/<slug:slug>/test', Test.as_view(), name='test-quiz-page'),
+    path('<int:pk>/<slug:slug>/clone',
+         CloneQuizView.as_view(), name='clone-quiz'),
 
 ]

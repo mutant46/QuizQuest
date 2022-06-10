@@ -12,6 +12,7 @@ $.ajax({
   error: (error) => console.log(error),
 });
 
+
 function questions(response) {
   questions_data = response.data;
   let ik;
@@ -108,3 +109,7 @@ submit.addEventListener("click", (e) => {
     error: (error) => console.log(error),
   });
 });
+
+
+// Info : data and time
+

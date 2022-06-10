@@ -1,0 +1,21 @@
+{% load widget_tweaks %}
+<div>
+    {{ form.non_field_errors }}
+    <div class="mb-2">
+        <label for="{{form.text.id_for_label}}" class="form-label fw-bold">Text</label>
+        {% if form.text.errors %}
+                <span class="text-danger">{{ form.text.errors  }}</span>
+        {% endif %}
+        {% render_field form.text class="form-control" id=from.text %}
+    </div>
+    <div>
+        <label for="{{form.correct.id_for_label}}" class="fw-bold">Correct</label>
+        {% if form.correct.errors %}
+            <div class="text-danger py-2">
+                <span>{{ form.correct.errors  }}</span>
+            </div> 
+        {% endif %}
+        {% render_field form.correct class="ms-2" id=from.correct %}
+    </div>
+</div>
+

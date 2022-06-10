@@ -86,20 +86,20 @@ class Quiz(models.Model):
         return self.questions.all()
 
 
-class Comment(models.Model):
+# class Comment(models.Model):
 
-    ''' Comments Model '''
+#     ''' Comments Model '''
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+#     text = models.CharField(max_length=400)
 
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    text = models.CharField(max_length=400)
-
-    def __str__(self):
-        return self.text
+#     def __str__(self):
+#         return self.text
 
 
-class Replies(models.Model):
+# class Replies(models.Model):
 
-    ''' Replies to Comment Model '''
+#     ''' Replies to Comment Model '''
 
-    quiz = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    text = models.CharField(max_length=400)
+#     quiz = models.ForeignKey(Comment, on_delete=models.CASCADE)
+#     text = models.CharField(max_length=400)

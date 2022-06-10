@@ -17,15 +17,18 @@
     
     {% for form in form.forms %}
       <h3 class= "my-4">Question - {{ forloop.counter }}</h3>
-        {{form.as_p}}
+      {% include 'base_forms/form.html' %}  
         {% if form.nested %}
             {{ form.nested.management_form }}
-            {{ form.nested.non_form_errors }}
-            <div class="container">
+            <ul class="pb-3 list-style-none">
+              {% for error in form.nested.non_field_errors  %}
+                <li class="text-danger text-left">{{ error }}</li>
+              {% endfor %}
+            </ul>
+            <div class="container-fluid">
               <div class="row">
-                <h4 class="my-3">Answers:</h4>
             {% for nested_form in form.nested.forms %}
-                  <div class="col-md-3"> 
+                  <div class="col-md-6 mb-5"> 
                     {{ nested_form.as_p }}
                   </div>
             {% endfor %}
@@ -33,10 +36,9 @@
                 </div>
             </div>
         {% endif %}
-    
     {% endfor %}
 
-    <input type="submit" value="Add Questions" class="btn btn-lg bg-success mt-3 text-white">
+    <input type="submit" value="Add Questions" class="btn btn-lg bg-success mt-5 text-white">
     {% if object.total_questions >= 3  %}
         {% if object.is_private %}
         <a href="{% url 'quiz:quiz_detail' object.id object.slug %}?pwd={{ object.password }}" class="btn bg-primary text-white">Done</a>
