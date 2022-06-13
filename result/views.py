@@ -1,13 +1,16 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import *
 from .models import Result
+from quiz.forms import CommentForm
 from question.models import Question
 import random
 from quiz.models import Quiz
 from django.http import JsonResponse
 import xlwt
 from django.http import HttpResponse
+from quiz.models import Comment
 
 
 class TestData(LoginRequiredMixin, View):
@@ -58,7 +61,7 @@ class CalcTestData(View, LoginRequiredMixin):
 
         def prepare_result_list(data, quiz):
             '''
-            Comparing User Test data with actual answers 
+            Comparing User Test data with actual answers
             & returning result_list
             '''
             result_list = []
@@ -94,17 +97,46 @@ class CalcTestData(View, LoginRequiredMixin):
         })
 
 
-class ResultView(View, LoginRequiredMixin):
-    template_name = 'result/result.html'
+# class ResultView(View, LoginRequiredMixin):
+#     template_name = 'result/result.html'
 
-    def get_queryset(self):
+#     def get_queryset(self):
+#         q = get_object_or_404(
+#             Quiz, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+#         return Result.objects.get(quiz=q, user=self.request.user)
+
+#     def get(self, request, *args, **kwargs):
+#         result = self.get_queryset()
+#         return render(request, self.template_name, {'quiz_result': result})
+
+
+class ResultView(FormView, LoginRequiredMixin):
+    template_name = 'result/result.html'
+    form_class = CommentForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         q = get_object_or_404(
             Quiz, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
-        return Result.objects.get(quiz=q, user=self.request.user)
+        context['quiz_result'] = Result.objects.get(
+            quiz=q, user=self.request.user)
+        return context
 
-    def get(self, request, *args, **kwargs):
-        result = self.get_queryset()
-        return render(request, self.template_name, {'quiz_result': result})
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        quiz = get_object_or_404(
+            Quiz, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+        if form.is_valid():
+            text = form.cleaned_data.get('text')
+            c = Comment.objects.create(
+                user=self.request.user, text=text, quiz=quiz)
+            c.save()
+            return self.form_valid(form)
+
+    def get_success_url(self) -> str:
+        quiz = get_object_or_404(
+            Quiz, pk=self.kwargs['pk'], slug=self.kwargs['slug'])
+        return reverse_lazy('quiz:quiz_detail', kwargs={'pk': quiz.id, 'slug': quiz.slug})
 
 
 class EXportResultsView(LoginRequiredMixin, View):

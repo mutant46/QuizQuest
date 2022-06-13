@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'question',
     'quiz',
     'result',
+    'book',
 ]
 
 MIDDLEWARE = [

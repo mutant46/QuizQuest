@@ -1,5 +1,5 @@
 from django import forms
-from .models import Quiz
+from .models import Quiz, Comment
 
 
 ''' ---------------------------------- Quiz Create View Form---------------------------------- '''
@@ -32,3 +32,11 @@ class QuizPublishForm(forms.ModelForm):
     class Meta:
         model = Quiz
         fields = ['status']
+
+
+class CommentForm(forms.Form):
+    text = forms.CharField(max_length=500, widget=forms.Textarea(
+        attrs={
+            'rows': 5,
+        }
+    ))

@@ -57,6 +57,18 @@
         </div>
     </div>
 
+
+    <div class="comments mb-5 py-5">
+        <h2 class="my-5">Comments</h2>
+        {% for comment in quiz.comments.all %}
+        <div class="col-6 d-flex align-items-center mt-5">
+            <img src="{% static 'images/avatar.png' %}" alt="" width="50px">
+            <span class="ms-3 fs-5">{{comment.text | title }}</span>
+        </div>
+        {% endfor %}
+        
+    </div>
+
 </div>
 
 {% endblock content %}

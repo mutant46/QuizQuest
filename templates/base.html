@@ -37,10 +37,10 @@
                 <a class="nav-link" href="{% url 'home' %}#about">About</a>
               </li>
               <li class="nav-item ms-lg-1">
-                <a class="nav-link" href="{% url 'quiz:quizes' %}">Explore</a>
+                <a class="nav-link" href="{% url 'quiz:quizes' %}">Quizes</a>
               </li>
               <li class="nav-item ms-lg-1">
-                <a class="nav-link" href="{% url 'contact' %}">Books</a>
+                <a class="nav-link" href="{% url 'book:books' %}">Books</a>
               </li>
               <li class="nav-item ms-lg-1">
                 <a class="nav-link" href="{% url 'contact' %}">Contact</a>
@@ -49,11 +49,14 @@
           </div>
           <!-- info: Search Bar -->
           <form
-            class="navbar-form me-lg-2 bg-white rounded-pill ms-auto"
+            class="navbar-form me-lg-2 d-flex bg-white rounded-pill ms-auto"
             role="search"
-            action="{% url 'quiz:quizes_search' %}"
-            method="GET"
-          >
+            action="{% url 'quizes_search' %}"
+            method="GET">
+          <select name="type" id="" class="form-select rounded-pill" aria-label=".form-select-lg example" style="width : 110px">
+            <option value="book">Books</option>
+            <option value="quiz" selected>Quizes</option>
+          </select>
             <div class="input-group">
               <input
                 type="text"

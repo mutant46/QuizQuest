@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from web.models import Category
@@ -86,15 +87,16 @@ class Quiz(models.Model):
         return self.questions.all()
 
 
-# class Comment(models.Model):
+class Comment(models.Model):
 
-#     ''' Comments Model '''
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-#     text = models.CharField(max_length=400)
+    ''' Comments Model '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(
+        Quiz, on_delete=models.CASCADE, related_name='comments')
+    text = models.CharField(max_length=400)
 
-#     def __str__(self):
-#         return self.text
+    def __str__(self):
+        return self.text
 
 
 # class Replies(models.Model):

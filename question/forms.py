@@ -130,6 +130,12 @@ class BaseAnswerForm(BaseInlineFormSet):
                     field='text',
                     error='This field is required'
                 )
+        answers = [x.cleaned_data.get('text') for x in self.forms]
+        for i in range(0, len(answers)):
+            for j in range(i+1, len(answers)):
+                if(answers[i] == answers[j]):
+                    raise ValidationError(
+                        'Answers must be unique.')
 
 
 AnswerInlineFormSet = inlineformset_factory(

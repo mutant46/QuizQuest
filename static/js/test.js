@@ -4,6 +4,8 @@ const quizBox = document.querySelector(".quiz-box");
 const submit = document.querySelector("#submit");
 const ResultBox = document.querySelector(".result-box");
 const buttonBox = document.querySelector(".results");
+const wrapper = document.querySelector(".test-wrapper");
+const time = document.querySelector('#time').innerHTML.split(' ')[0];
 let questions_data;
 $.ajax({
   type: "GET",
@@ -25,7 +27,7 @@ function questions(response) {
 function generate_html(question, answers, index) {
   quizBox.innerHTML += `
     <div class="question" style="margin-bottom : 6em">
-        <h4 class="font-medium text-capitalize"> <span class="me-3 text-primary">Question-${
+        <h4 class="font-medium text-capitalize" id="quiz-question"> <span class="me-3 text-primary">Question-${
           index + 1
         } :</span>${question}</h4>
         <div class="options mt-3 d-flex justify-content-between">
@@ -34,7 +36,7 @@ function generate_html(question, answers, index) {
                 return `
                 <div class="form-check option d-flex align-items-center mt-3 px-5">
                     <input class="form-check-input answer" type="radio" name="${question}" id="${question}" value="${answer}">
-                    <label class="form-check-label ms-3" style="font-size :medium; font-weight : 500" for="${question}">
+                    <label class="form-check-label ms-3" style="font-size :medium; font-weight : 500">
                         ${answer}
                     </label>
                 </div>`;
@@ -44,6 +46,43 @@ function generate_html(question, answers, index) {
         <hr>
     </div>`;
 }
+
+// Info : Prevent from copying
+const disableselect = (e) => {  
+  return false  
+}  
+document.onselectstart = disableselect  
+document.onmousedown = disableselect
+
+// Info : Manage Timer
+const endtime = document.querySelector("#endtime")
+const counter = document.querySelector('#timer')
+var d1 = new Date ()
+d1.setMinutes(d1.getMinutes() + parseInt(time) );
+endtime.innerHTML = d1.toLocaleTimeString();
+const timeInterval = setInterval(setTimer, 1000);
+function setTimer() {
+  const now = new Date();
+  const distance = d1 - now;
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  counter.innerHTML = `${minutes}:${seconds}`;
+  if (distance < 0) {
+    clearInterval(timeInterval);
+    counter.innerHTML = "EXPIRED";
+    submit.disabled = true;
+    submit.classList.add("disabled");
+    submit.classList.remove("btn-primary");
+    submit.classList.add("btn-danger");
+    submit.innerHTML = "Time Up";
+    submit_quiz()
+  }
+}
+
+    
+
+
+
 
 const form = document.querySelector("#quiz-form");
 const csrf = document.getElementsByName("csrfmiddlewaretoken");
@@ -98,9 +137,8 @@ function showResults(response) {
   }
 }
 
-submit.addEventListener("click", (e) => {
-  e.preventDefault();
-  data = sendData();
+const submit_quiz = () => {
+  const data = sendData();
   $.ajax({
     type: "POST",
     url: `${url}/calculate-result/`,
@@ -108,8 +146,25 @@ submit.addEventListener("click", (e) => {
     success: (response) => showResults(response),
     error: (error) => console.log(error),
   });
+}
+
+// submit.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   data = sendData();
+//   $.ajax({
+//     type: "POST",
+//     url: `${url}/calculate-result/`,
+//     data: data,
+//     success: (response) => showResults(response),
+//     error: (error) => console.log(error),
+//   });
+// });
+
+submit.addEventListener("click", () => {
+  clearInterval(timeInterval);
+  submit_quiz();
 });
 
 
-// Info : data and time
+
 

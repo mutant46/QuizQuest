@@ -7,6 +7,7 @@ from .models import Quiz
 from question.models import Question, Answer
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
+from django.db.models import Q
 from question.forms import QuestionForm
 from .forms import (
     PrivateQuizForm,
@@ -33,6 +34,8 @@ class AllQuizesView(ListView):
     '''
 
     def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return self.model.public.filter(~Q(user=self.request.user))
         return self.model.public.all()
 
 

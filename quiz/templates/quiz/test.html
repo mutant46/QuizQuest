@@ -6,7 +6,10 @@
 
 {% block content %}
 
-<h3 class="p-3 mt-5"></h3>
+<h3 class="px-3 mt-5">
+  Submission Time : <span id="endtime"></span>
+</h3>
+<h3 class="px-3 mt-2 mb-5">Remaining Time : <span id="timer"></span></h3>
 <div class="container-fluid">
   <table class="table table-borderd">
     <thead>
@@ -20,7 +23,7 @@
     <tbody>
       <tr>
         <td class="p-3">{{ test_quiz.name }}</td>
-        <td class="p-3">{{ test_quiz.time }} mins</td>
+        <td class="p-3" id="time">{{ test_quiz.time }} mins</td>
         <td class="p-3">{{ test_quiz.percentage }}</td>
         <td class="p-3">{{ test_quiz.difficulity }}</td>
       </tr>
@@ -28,8 +31,8 @@
   </table>
 </div>
 
-<div class="container-fluid p-3 mt-5">
-  <style>
+<div class="container-fluid mt-5 test-wrapper">
+ <style>
     label {
       font-size: 18px;
       font-weight: bold;
@@ -38,17 +41,17 @@
     .option {
       height: 100%;
     }
-  </style>
+  </style> 
 
-  <form action="" id="quiz-form" class="my-3">
+  <form action="" id="quiz-form" class="my-1 px-3">
     {% csrf_token %}
     <div class="quiz-box"></div>
 
-    <button class="btn btn-primary mt-1" id="submit" type="button">Submit</button>
+    <button class="btn btn-lg btn-success mt-1 text-white" id="submit" type="button">Submit Quiz</button>
   </form>
 </div>
 
-<div class="container-fluid p-3 mt-2 result-box"></div>
+<div class="container-fluid py-3 px-5 mt-2 result-box"></div>
 
 <div class="results container-fluid p-3 d-none">
   <a

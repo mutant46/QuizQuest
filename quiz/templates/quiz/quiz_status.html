@@ -1,10 +1,11 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
 
 
 
 
-<div class="p-5">
-
+<div class="py-3 pb-5">
     <div>
         <ul>
             {% for message in messages  %}
@@ -15,10 +16,11 @@
     
         </ul>
     </div>
-
-  <form method="POST" enctype="multipart/form-data" class="py-5">
-    {% csrf_token %} {{ form.as_p }}
-    <input type="submit" value = "Publish" class="btn btn-lg btn-primary text-white" />
+    <img src="{% static 'images/upload.jpg' %}" width="50%" class="d-block mx-auto"  alt="">
+  <form method="POST" enctype="multipart/form-data" class="pb-2  d-flex justify-content-center">
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <input type="submit" value = "Publish Quiz" class="btn btn-lg btn-danger text-white py-3 px-5" />
   </form>
 </div>
 

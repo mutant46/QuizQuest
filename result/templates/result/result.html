@@ -28,6 +28,14 @@
           </tbody>
         </table>
       </div>
+
+      <h2 class="my-5 pt-4">Comment Your Experience :)</h2>
+
+      <form method="POST">
+        {% csrf_token %}
+        {% include 'base_forms/form.html' %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
 </div>
 {% endblock content %}
 

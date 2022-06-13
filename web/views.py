@@ -1,4 +1,4 @@
-from calendar import c
+from unicodedata import category
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -6,6 +6,7 @@ from django.views.generic import *
 from .models import Contact, Category
 from quiz.models import Quiz
 from result.models import Result
+from book.models import Book
 
 
 def home(request):
@@ -74,3 +75,21 @@ class PrivateQuizSubmissionsView(ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(quiz_id=self.kwargs['id'])
+
+
+class SearchView(ListView):
+    paginate_by = 4
+
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q')
+        type = request.GET.get('type')
+        if type == 'quiz':
+            context = {
+                'quizes': Quiz.objects.filter(name__icontains=query)
+            }
+            return render(request, 'web/filter_quizes.html', context)
+        else:
+            context = {
+                'books': Book.objects.filter(title__icontains=query)
+            }
+            return render(request, "web/filter_books.html", context)

@@ -20,7 +20,7 @@
                 {% if field.help_text %}
                     ( {{field.help_text}} )
                 {% endif %}
-                </span>
+            </span>
             {% if field.errors %}
                 {% render_field field class="form-control border border-danger" id=field.name %}
                 <div class="text-danger py-2">
@@ -30,8 +30,9 @@
             {% render_field field class="form-check d-inline-block align-middle" id=field.name %}
             {% else %}
             {% render_field field class="form-control" id=field.name %}
-        </div>
             {% endif %} 
+        </div>
+            
     {% endfor %}
 </div>
 
