@@ -12,14 +12,14 @@ class PublicQuizForm(forms.ModelForm):
                   'time', 'percentage', 'difficulity']
 
 
-class PrivateQuizForm(forms.ModelForm):
-    valid_thru = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date'}))
+# class PrivateQuizForm(forms.ModelForm):
+#     valid_thru = forms.DateField(
+#         widget=forms.DateInput(attrs={'type': 'date'}))
 
-    class Meta:
-        model = Quiz
-        fields = ['name', 'category', 'image', 'desc',
-                  'time', 'percentage', 'difficulity', 'valid_thru']
+#     class Meta:
+#         model = Quiz
+#         fields = ['name', 'category', 'image', 'desc',
+#                   'time', 'percentage', 'difficulity', 'valid_thru']
 
 
 ''' ---------------------------------- Quiz Status UpdateView Form---------------------------------- '''

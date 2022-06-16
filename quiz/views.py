@@ -9,8 +9,8 @@ from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.db.models import Q
 from question.forms import QuestionForm
+from datetime import datetime
 from .forms import (
-    PrivateQuizForm,
     PublicQuizForm,
     QuizPublishForm
 )
@@ -50,8 +50,6 @@ class CreateQuizView(OwnerCreateView):
 
     def get(self, request, *args, **kwargs):
         status = request.GET.get('status', "")
-        if status == "private":
-            self.form_class = PrivateQuizForm
         return super().get(request, *args, **kwargs)
 
     # getting the quiz object
@@ -219,6 +217,7 @@ class QuizSearchView(ListView):
 class Test(LoginRequiredMixin, View):
     '''
     veiw for that test page
+
     '''
 
     def get(self, request, *args, **kwargs):
@@ -234,7 +233,7 @@ class Test(LoginRequiredMixin, View):
         elif not quiz.is_private():
             return render(request, 'quiz/test.html', context)
         # Info : kinldy make this page to redirect
-        return HttpResponse('You have already taken this quiz')
+        return HttpResponse('You have already taken this quiz or you have tried to refresh the page')
 
 
 class CloneQuizView(LoginRequiredMixin, View):

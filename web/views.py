@@ -7,6 +7,7 @@ from .models import Contact, Category
 from quiz.models import Quiz
 from result.models import Result
 from book.models import Book
+from django.db.models import Q
 
 
 def home(request):
@@ -90,6 +91,6 @@ class SearchView(ListView):
             return render(request, 'web/filter_quizes.html', context)
         else:
             context = {
-                'books': Book.objects.filter(title__icontains=query)
+                'books': Book.objects.filter(Q(title__icontains=query) | Q(category__name__icontains=query))
             }
             return render(request, "web/filter_books.html", context)

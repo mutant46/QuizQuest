@@ -28,7 +28,7 @@
                     <i class="fa-solid fa-copy text-white fs-6"></i>
                 <span>
                 {% endif %}
-            {% else %}
+            {% elif quiz.status != "private" %}
             <a href="{% url 'quiz:clone-quiz' quiz.pk quiz.slug %}" title="Clone Quiz" class="bg-warning p-3 rounded-circle me-3">
                 <i class="fa-solid fa-closed-captioning text-white"></i>
             </a>
@@ -60,12 +60,19 @@
 
     <div class="comments mb-5 py-5">
         <h2 class="my-5">Comments</h2>
+        {% if quiz.comments.all %}
         {% for comment in quiz.comments.all %}
         <div class="col-6 d-flex align-items-center mt-5">
             <img src="{% static 'images/avatar.png' %}" alt="" width="50px">
             <span class="ms-3 fs-5">{{comment.text | title }}</span>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="col-12 d-flex align-items-center mt-5">
+            <span class="ms-3 fs-5">No comments yet</span>
+        </div>
+        {% endif %}
+
         
     </div>
 

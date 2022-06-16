@@ -60,7 +60,6 @@ class Quiz(models.Model):
                                    choices=d_choices)
     ratings = models.IntegerField(default=0)
     password = models.CharField(max_length=100, blank=True, null=True)
-    valid_thru = models.DateField(blank=True, null=True)
 
     ''' models managers '''
     objects = models.Manager()
